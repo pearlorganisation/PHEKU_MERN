@@ -1,14 +1,18 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import HomePage from './pages/Home/HomePage';
-import BlogPage from './pages/Blog/BlogPage';
-import LayoutComponent from './components/Layout/LayoutComponent';
-import Login from './pages/Auth/login/Login';
-import SignUp from './pages/Auth/signUp/SignUp';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import HomePage from "./pages/Home/HomePage";
+import BlogPage from "./pages/Blog/BlogPage";
+import LayoutComponent from "./components/Layout/LayoutComponent";
+import Login from "./pages/Auth/login/Login";
+import SignUp from "./pages/Auth/signUp/SignUp";
+import Stream from "./pages/Stream/Stream";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <LayoutComponent />,
     children: [
       {
@@ -16,23 +20,26 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: 'about',
+        path: "stream",
+        element: <Stream />,
+      },
+      {
+        path: "about",
         element: <BlogPage />,
       },
       {
-        path: 'login',
+        path: "login",
         element: <Login />,
       },
       {
-        path: 'signUp',
+        path: "signUp",
         element: <SignUp />,
       },
     ],
   },
 ]);
 function App() {
-
   return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

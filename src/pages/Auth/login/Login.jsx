@@ -1,75 +1,106 @@
 const Login = () => {
-    return (
-        <main className="w-full h-screen flex flex-col items-center justify-center px-4">
-            <div className="max-w-sm w-full text-gray-600 space-y-5">
-                <div className="text-center pb-8">
-                    <img src="https://floatui.com/logo.svg" width={150} className="mx-auto" />
-                    <div className="mt-5">
-                        <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">Log in to your account</h3>
-                    </div>
-                </div>
-                <form
-                    onSubmit={(e) => e.preventDefault()}
-                    className="space-y-5"
-                >
-                    <div>
-                        <label className="font-medium">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            required
-                            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                        />
-                    </div>
-                    <div>
-                        <label className="font-medium">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            required
-                            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                        />
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                        <div className="flex items-center gap-x-3">
-                            <input type="checkbox" id="remember-me-checkbox" className="checkbox-item peer hidden" />
-                            <label
-                                htmlFor="remember-me-checkbox"
-                                className="relative flex w-5 h-5 bg-white peer-checked:bg-indigo-600 rounded-md border ring-offset-2 ring-indigo-600 duration-150 peer-active:ring cursor-pointer after:absolute after:inset-x-0 after:top-[3px] after:m-auto after:w-1.5 after:h-2.5 after:border-r-2 after:border-b-2 after:border-white after:rotate-45"
-                            >
-                            </label>
-                            <span>Remember me</span>
-                        </div>
-                        <a href="javascript:void(0)" className="text-center text-indigo-600 hover:text-indigo-500">Forgot password?</a>
-                    </div>
-                    <button
-                        className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                    >
-                        Sign in
-                    </button>
-                </form>
-                <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">
-                    <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_17_40)">
-                            <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
-                            <path d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z" fill="#34A853" />
-                            <path d="M11.0051 28.6006C9.99973 25.6199 9.99973 22.3922 11.0051 19.4115V13.2296H3.03298C-0.371021 20.0112 -0.371021 28.0009 3.03298 34.7825L11.0051 28.6006Z" fill="#FBBC04" />
-                            <path d="M24.48 9.49932C27.9016 9.44641 31.2086 10.7339 33.6866 13.0973L40.5387 6.24523C36.2 2.17101 30.4414 -0.068932 24.48 0.00161733C15.4055 0.00161733 7.10718 5.11644 3.03296 13.2296L11.005 19.4115C12.901 13.7235 18.2187 9.49932 24.48 9.49932Z" fill="#EA4335" />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_17_40">
-                                <rect width="48" height="48" fill="white" />
-                            </clipPath>
-                        </defs>
+  return (
+    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+          <div>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYDzrcR76JDFjYJComkIbHIv6eMK2ZRPvUpw&s"
+              className="w-mx-auto"
+            />
+          </div>
+          <div className="mt-12 flex flex-col items-center">
+            <div className="w-full flex-1 mt-8">
+              <div className="flex flex-col items-center">
+                <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+                  <div className="bg-white p-2 rounded-full">
+                    <svg className="w-4" viewBox="0 0 533.5 544.3">
+                      <path
+                        d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
+                        fill="#4285f4"
+                      />
+                      <path
+                        d="M272.1 544.3c73.4 0 135.3-24.1 180.4-65.7l-87.7-68c-24.4 16.6-55.9 26-92.6 26-71 0-131.2-47.9-152.8-112.3H28.9v70.1c46.2 91.9 140.3 149.9 243.2 149.9z"
+                        fill="#34a853"
+                      />
+                      <path
+                        d="M119.3 324.3c-11.4-33.8-11.4-70.4 0-104.2V150H28.9c-38.6 76.9-38.6 167.5 0 244.4l90.4-70.1z"
+                        fill="#fbbc04"
+                      />
+                      <path
+                        d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
+                        fill="#ea4335"
+                      />
                     </svg>
-                    Continue with Google
+                  </div>
+                  <span className="ml-4">Sign In with Google</span>
                 </button>
-                <p className="text-center">Don't have an account? <a href="javascript:void(0)" className="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a></p>
-            </div>
-        </main>
-    )
-}
+              </div>
 
-export default Login
+              <div className="my-12 border-b text-center">
+                <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                  Or sign In with Cartesian E-mail
+                </div>
+              </div>
+
+              <div className="mx-auto max-w-xs">
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  type="email"
+                  placeholder="Email"
+                />
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                  type="password"
+                  placeholder="Password"
+                />
+                <button className="mt-5 tracking-wide font-semibold bg-green-400 text-white-500 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                  <svg
+                    className="w-6 h-6 -ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="8.5" cy="7" r="4" />
+                    <path d="M20 8v6M23 11h-6" />
+                  </svg>
+                  <span className="ml-">Sign In</span>
+                </button>
+                <p className="mt-6 text-xs text-gray-600 text-center">
+                  I agree to abide by Cartesian Kinetics
+                  <a
+                    href="#"
+                    className="border-b border-gray-500 border-dotted"
+                  >
+                    Terms of Service
+                  </a>
+                  and its
+                  <a
+                    href="#"
+                    className="border-b border-gray-500 border-dotted"
+                  >
+                    Privacy Policy
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 bg-green-100 text-center hidden lg:flex">
+          <div
+            className="m-12 xl:m-16 w-full bg-cover bg-center bg-no-repeat"
+            style={{
+              background:
+                "url('https://t4.ftcdn.net/jpg/05/65/20/27/360_F_565202786_towUjm2KMittPXHT7yF7H4SFPAxv0xjD.jpg')",
+            }}
+          ></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
