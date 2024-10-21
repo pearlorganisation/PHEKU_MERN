@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccomodations } from "../../features/actions/accomodationsAction";
 
 const AccomodationPage = () => {
+  const dispatch = useDispatch();
+  const { accomodations } = useSelector((state) => state.accomodation);
+
+  useEffect(() => {
+    dispatch(getAccomodations());
+  }, []);
+
+  console.log(accomodations, "accomodations from db");
   return (
     <div className="px-16 py-4 mt-8">
       <div className="grid grid-cols-1 lg:grid-cols-[40%_auto]">
