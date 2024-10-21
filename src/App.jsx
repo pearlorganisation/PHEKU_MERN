@@ -9,6 +9,7 @@ import LayoutComponent from "./components/Layout/LayoutComponent";
 import Login from "./pages/Auth/login/Login";
 import SignUp from "./pages/Auth/signUp/SignUp";
 import Stream from "./pages/Stream/Stream";
+import AccomodationPage from "./pages/AccomodationPage/AccomodationPage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
         path: "stream",
         element: <Stream />,
       },
+      { path: "accomodation", element: <AccomodationPage /> },
       {
         path: "about",
         element: <BlogPage />,
