@@ -6,13 +6,14 @@ import { resetContactForm } from '../../features/slices/contactSlice';
  
 const ContactUs = () => {
   const dispatch = useDispatch();
-  const {register , handleSubmit} = useForm()
+  const {register , handleSubmit, reset} = useForm()
   const {success} = useSelector((state)=> state.contact)
   const submitForm = async (data)=>{
    dispatch(submitContact(data))  // will submit the contact form later
   }
 if(success){
-  dispatch(resetContactForm)
+  reset()
+  dispatch(resetContactForm())
 }
   return (
     <div>
