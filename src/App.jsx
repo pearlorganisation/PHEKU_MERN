@@ -11,6 +11,8 @@ import SignUp from "./pages/Auth/signUp/SignUp";
 import Stream from "./pages/Stream/Stream";
 import AccomodationPage from "./pages/AccomodationPage/AccomodationPage";
 import ContactUs from "./pages/ContactUsPage/ContactUs";
+import UniversityPage from "./pages/UniversityPage/UniversityPage";
+import Exams from "./pages/ExamsPage/Exams";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
         path: "contact_us",
         element: <ContactUs />,
       },
+      {
+        path: "university",
+        element: <UniversityPage />
+      },
+      {
+        path: "exams",
+        element: <Exams />
+      }
     ],
   },
 ]);
