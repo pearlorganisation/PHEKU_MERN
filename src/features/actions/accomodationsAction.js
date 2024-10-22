@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const localURL = "http://localhost:8080/api/v1";
+export const localURL = "http://localhost:8080/api/v1";
 
 export const getAccomodations = createAsyncThunk(
   "accomodations/getAccomodation",

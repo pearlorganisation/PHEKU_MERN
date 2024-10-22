@@ -1,7 +1,19 @@
 import React from 'react'
-
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitContact } from '../../features/actions/contactAction';
+import { resetContactForm } from '../../features/slices/contactSlice';
  
 const ContactUs = () => {
+  const dispatch = useDispatch();
+  const {register , handleSubmit} = useForm()
+  const {success} = useSelector((state)=> state.contact)
+  const submitForm = async (data)=>{
+   dispatch(submitContact(data))  // will submit the contact form later
+  }
+if(success){
+  dispatch(resetContactForm)
+}
   return (
     <div>
       <div className="relative">
@@ -17,7 +29,7 @@ const ContactUs = () => {
         <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-white rounded-xl text-black z-20 p-8 w-11/12 md:w-2/3 lg:w-1/2 xl:w-2/3 shadow-lg">
           <h2 className="text-4xl font-semibold text-gray-700 mb-6 mt-4">Send Us a Message</h2>
 
-          <form>
+          <form onSubmit={handleSubmit(submitForm)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name Field */}
               <div>
@@ -27,6 +39,7 @@ const ContactUs = () => {
                   name="name"
                   id="name"
                   placeholder="Enter Your Name"
+                  {...register("name")}
                   className="mt-1 border-2 block w-full shadow-sm text-lg border-gray-300 rounded-md pl-2"
                   required
                 />
@@ -39,6 +52,7 @@ const ContactUs = () => {
                   type="email"
                   name="email"
                   id="email"
+                  {...register("email")}
                   placeholder="Enter Your Email"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 border-2  pl-2 block w-full shadow-sm text-lg border-gray-300 rounded-md"
                   required
@@ -52,6 +66,7 @@ const ContactUs = () => {
                   type="text"
                   name="subject"
                   id="subject"
+                  {...register("subject")}
                   placeholder="Enter your Message Subject"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block pl-2 border-2 w-full shadow-sm text-lg border-gray-300 rounded-md"
                   required
@@ -65,6 +80,7 @@ const ContactUs = () => {
                   type="tel"
                   name="mobile"
                   id="mobile"
+                  {...register("mobile")}
                   placeholder="Enter your Mobile Number"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 pl-2 block w-full border-2 shadow-sm text-lg border-gray-300 rounded-md"
                 />
@@ -78,6 +94,7 @@ const ContactUs = () => {
                 name="message"
                 id="message"
                 rows="4"
+                {...register("message")}
                 placeholder="Enter Your Message"
                 className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 pl-2 block w-full border-2 shadow-sm text-lg border-gray-300 rounded-md"
                 required

@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -13,6 +13,7 @@ import AccomodationPage from "./pages/AccomodationPage/AccomodationPage";
 import ContactUs from "./pages/ContactUsPage/ContactUs";
 import UniversityPage from "./pages/UniversityPage/UniversityPage";
 import Exams from "./pages/ExamsPage/Exams";
+import Courses from "./pages/CoursePage/Courses";
 
 const router = createBrowserRouter([
   {
@@ -51,12 +52,31 @@ const router = createBrowserRouter([
       {
         path: "exams",
         element: <Exams />
+      },
+      {
+        path: "courses",
+        element: <Courses />
       }
     ],
   },
 ]);
 function App() {
-  return <RouterProvider router={router} />;
+
+  return <>
+        <ToastContainer
+        position="top-right"  
+        autoClose={5000}     
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"  
+      />
+  <RouterProvider router={router} />
+  </> ;
 }
 
 export default App;
