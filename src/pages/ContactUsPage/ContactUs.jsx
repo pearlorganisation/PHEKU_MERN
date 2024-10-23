@@ -19,13 +19,14 @@ if(success){
     <div>
       <div className="relative">
         <div
-          className="h-96"
+          className="h-96 flex flex-col justify-center items-start"
           style={{
             backgroundImage: `url('/eduction-background.jpg')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        ></div>
+        >
+        </div>
 
         <div className="absolute top-24 left-1/2 transform -translate-x-1/2 bg-white rounded-xl text-black z-20 p-8 w-11/12 md:w-2/3 lg:w-1/2 xl:w-2/3 shadow-lg">
           <h2 className="text-4xl font-semibold text-gray-700 mb-6 mt-4">Send Us a Message</h2>
