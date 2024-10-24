@@ -1,19 +1,16 @@
-import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-export const localURL = "http://localhost:8080/api/v1";
+import { axiosInstance } from "../../services/axiosInterceptor";
 
 export const getAccomodations = createAsyncThunk(
   "accomodations/getAccomodation",
   async (_, { rejectWithValue }) => {
     try {
       const config = {
-        withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.get(`${localURL}/accomodations`, config);
+      const { data } = await axiosInstance.get(`/api/v1/accomodations`, config);
 
       console.log("Accomodations Search Data", data);
 
