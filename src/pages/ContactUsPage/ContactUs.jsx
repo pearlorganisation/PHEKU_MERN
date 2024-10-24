@@ -9,7 +9,7 @@ const ContactUs = () => {
   const {register , handleSubmit, reset} = useForm()
   const {success} = useSelector((state)=> state.contact)
   const submitForm = async (data)=>{
-   dispatch(submitContact(data))  // will submit the contact form later
+   dispatch(submitContact(data))
   }
 if(success){
   reset()

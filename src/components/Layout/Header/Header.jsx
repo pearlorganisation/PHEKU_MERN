@@ -2,38 +2,35 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { clearUser } from "../../../features/slices/authSlice";
+import ProfileMenuDropdown from "../../ProfileMenu/ProfileMenu";
 
 const Header = () => {
   const [state, setState] = useState(false);
 
   const { isUserLoggedIn } = useSelector((state) => state.auth);
-  const dipsatch = useDispatch();
+  // const dipsatch = useDispatch();
 
-  const handleLogout = () => {
-    dipsatch(clearUser());
-    Navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   dipsatch(clearUser());
+  //   Navigate("/login");
+  // };
 
   // Replace javascript:void(0) paths with your paths
   const navigation = [
     { title: "Home", path: "/" },
-    { title: "Features", path: "javascript:void(0)" },
-    { title: "Integrations", path: "javascript:void(0)" },
-    { title: "Customers", path: "javascript:void(0)" },
-    { title: "Pricing", path: "javascript:void(0)" },
+    { title: "Universities", path: "/university" },
+    { title: "Entrance Exams", path: "/exams" },
+    { title: "Courses", path: "/courses" },
+    { title: "Accomodation", path: "/accomodation" },
+    { title: "Contact", path: "/contact_us" },
   ];
 
   return (
     <nav className="bg-white border-b w-full md:static md:text-sm md:border-none">
       <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:py-5 md:block">
-          <a href="javascript:void(0)">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYDzrcR76JDFjYJComkIbHIv6eMK2ZRPvUpw&s"
-              width={120}
-              height={50}
-              alt="Float UI logo"
-            />
+          <a href="/">
+            <span className="text-5xl font-extrabold text-black  mr-5">PHEKU</span>
           </a>
           <div className="md:hidden">
             <button
@@ -166,12 +163,7 @@ const Header = () => {
                 </li>
               </div>
             ) : (
-              <button
-                className="text-black px-6 py-2 border-2 border-[#2DA5F3] rounded-md"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <ProfileMenuDropdown />
             )}
           </ul>
         </div>

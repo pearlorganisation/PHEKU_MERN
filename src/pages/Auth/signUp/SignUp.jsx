@@ -22,11 +22,8 @@ const SignUp = () => {
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-          <div>
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYDzrcR76JDFjYJComkIbHIv6eMK2ZRPvUpw&s"
-              className="w-mx-auto"
-            />
+          <div className="flex items-center justify-center">
+            <span className="text-5xl font-extrabold text-black mr-5">PHEKU</span>
           </div>
           <div className="mt-12 flex flex-col items-center">
             <div className="w-full flex-1 mt-8">
@@ -94,7 +91,7 @@ const SignUp = () => {
             className="m-12 xl:m-16 w-full bg-cover bg-center bg-no-repeat"
             style={{
               background:
-                "url('https://t4.ftcdn.net/jpg/05/65/20/27/360_F_565202786_towUjm2KMittPXHT7yF7H4SFPAxv0xjD.jpg')",
+                "url('https://thumbs.dreamstime.com/b/online-education-poster-woman-laptop-sitting-chair-distance-learning-training-student-remote-lesson-lecture-flat-329977017.jpg')",
             }}
           ></div>
         </div>
