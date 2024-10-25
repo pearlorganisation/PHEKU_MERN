@@ -44,7 +44,7 @@ const AccomodationPage = () => {
       <div className="lg:mt-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold leading-tight text-gray-900 mt-8 mb-4">Available Accommodations</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {accomodations.map((accommodation) => (
+          {accomodations?.map((accommodation) => (
             <div key={accommodation._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="relative">
                 <Swiper
@@ -54,11 +54,11 @@ const AccomodationPage = () => {
                   modules={[Pagination]}
                   className="mySwiper"
                 >
-                  {accommodation?.images.map((image, index) => (
+                  {accommodation?.images?.map((image, index) => (
                     <SwiperSlide key={index}>
                       <img
                         src={image.secure_url}
-                        alt={accommodation.name}
+                        alt={accommodation?.name}
                         className="w-full h-64 object-cover"
                       />
                     </SwiperSlide>
