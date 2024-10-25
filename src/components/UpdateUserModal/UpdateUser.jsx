@@ -32,12 +32,12 @@ const UpdateUser = ({ fullName, email, mobileNumber, handleEdit}) => {
             });
         }
   return (
-      <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white w-full max-w-md mx-auto p-8 rounded-md shadow-lg relative">
-              <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
+      <div className="fixed inset-0 z-20 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white w-full max-w-xl mx-auto p-12 rounded-lg shadow-xl relative">
+              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Update Profile</h2>
               <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  <div className="mb-6">
+                      <label htmlFor="fullName" className="block text-base font-medium text-gray-700 mb-2">
                           Name
                       </label>
                       <input
@@ -45,13 +45,13 @@ const UpdateUser = ({ fullName, email, mobileNumber, handleEdit}) => {
                           id="fullName"
                           defaultValue={fullName}
                           ref={nameRef}
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm h-12"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-700 text-lg"
                           required
                       />
                   </div>
 
-                  <div className="mb-4">
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <div className="mb-6">
+                      <label htmlFor="email" className="block text-base font-medium text-gray-700 mb-2">
                           Email
                       </label>
                       <input
@@ -59,13 +59,13 @@ const UpdateUser = ({ fullName, email, mobileNumber, handleEdit}) => {
                           id="email"
                           defaultValue={email}
                           ref={emailRef}
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm h-12"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-700 text-lg"
                           required
                       />
                   </div>
 
-                  <div className="mb-4">
-                      <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700">
+                  <div className="mb-8">
+                      <label htmlFor="mobileNumber" className="block text-base font-medium text-gray-700 mb-2">
                           Mobile Number
                       </label>
                       <input
@@ -73,25 +73,26 @@ const UpdateUser = ({ fullName, email, mobileNumber, handleEdit}) => {
                           id="mobileNumber"
                           defaultValue={mobileNumber}
                           ref={mobileNumberRef}
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm h-12"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-gray-700 text-lg"
                           required
                       />
                   </div>
-                  <div className='flex felx-row justify-between gap-1'>
+
+                  <div className="flex justify-between space-x-4">
                       <button
                           type="submit"
-                          className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-all duration-300"
+                          className="w-full bg-teal-500 text-white py-3 px-6 rounded-md hover:bg-teal-600 transition duration-300 font-medium text-lg"
                       >
                           Save Changes
                       </button>
                       <button
                           type="button"
                           onClick={handleEdit}
-                          className="w-full bg-red-300 text-white py-3 rounded-md hover:bg-red-600 transition-all duration-300"
+                          className="w-full bg-gray-300 text-gray-700 py-3 px-6 rounded-md hover:bg-gray-400 transition duration-300 font-medium text-lg"
                       >
                           Cancel
-                      </button></div>
-
+                      </button>
+                  </div>
               </form>
           </div>
       </div>
