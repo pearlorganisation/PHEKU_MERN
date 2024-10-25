@@ -28,16 +28,16 @@ export const getUserProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   "user/updateProfile",
-  async ({ name, mobileNumber }, { rejectWithValue }) => {
+  async ({ fullName, mobileNumber, email }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axiosInstance.put(
-        `/api/v1/users/profile`,
-        { name, mobileNumber },
+      const { data } = await axiosInstance.patch(
+        `/api/v1/users/me`,
+        { fullName, mobileNumber, email },
         config
       );
 
