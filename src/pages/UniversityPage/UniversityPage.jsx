@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUniversities } from "../../features/actions/universitiesAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ const universityData = [
     slug: "mit",
     imagePath: "/mit.jpg",
     location: "Cambridge, Massachusetts, USA",
+    country: "USA",
     highlights:
       "Renowned for its STEM programs, groundbreaking research, and entrepreneurial spirit.",
     overview:
@@ -42,7 +43,8 @@ const universityData = [
     slug: "stanford",
     location: "Stanford, California, USA",
     imagePath: "/stanford.jpg",
-    highlights:
+    country: "USA",
+highlights:
       "Silicon Valley proximity, strong humanities programs, and a vibrant campus life.",
     overview:
       "Stanford is a private research university known for its entrepreneurial culture and interdisciplinary approach to learning.",
@@ -74,7 +76,8 @@ const universityData = [
     name: "University of Oxford",
     slug: "oxford",
     location: "Oxford, Oxfordshire, England",
-    imagePath: "/oxford.jpg",
+    imagePath: "/oxford.jpg", 
+    country: "England",
     highlights:
       "World-renowned tutorial system, historic colleges, and a rich academic tradition.",
     overview:
@@ -108,6 +111,7 @@ const universityData = [
     slug: "mit",
     imagePath: "/mit.jpg",
     location: "Cambridge, Massachusetts, USA",
+    country: "USA",
     highlights:
       "Renowned for its STEM programs, groundbreaking research, and entrepreneurial spirit.",
     overview:
@@ -140,6 +144,7 @@ const universityData = [
     name: "Stanford University",
     slug: "stanford",
     location: "Stanford, California, USA",
+    country:"USA",
     imagePath: "/stanford.jpg",
     highlights:
       "Silicon Valley proximity, strong humanities programs, and a vibrant campus life.",
@@ -174,6 +179,7 @@ const universityData = [
     slug: "oxford",
     location: "Oxford, Oxfordshire, England",
     imagePath: "/oxford.jpg",
+    country: "England",
     highlights:
       "World-renowned tutorial system, historic colleges, and a rich academic tradition.",
     overview:
@@ -206,36 +212,94 @@ const universityData = [
 
 const UniversityPage = () => {
   const { universities } = useSelector((state) => state.university);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCountries, setSelectedCountries] = useState([]);
   const dispatch = useDispatch();
+  
+// extracting only the unique countries from the data set
+  const uniqueCountries = [
+    ...new Set(universityData.map((university) => university.country)),
+  ];
 
-  useEffect(() => {
-    dispatch(getUniversities());
-  }, []);
+   // filter handle
+  const filteredUniversities = universityData.filter((university) => {
+    // to select by name
+    const nameMatch = university.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    // to select by coountry
+      const countryMatch =
+      selectedCountries.length === 0 ||   // no country selected show all universities
+      selectedCountries.includes(university.country);
+      return nameMatch && countryMatch;
+  });
 
-  console.log(universities, "all universities ");
+  // handler to filter by country
+  const handleCountryChange = (country) => {
+    
+    setSelectedCountries((prevSelected) => {
+      if (prevSelected.includes(country)) {
+        return prevSelected.filter((c) => c !== country);
+      } else {
+        return [...prevSelected, country];
+      }
+    });
+  };
+
+
   return (
-    <div className="px-16 py-4 mt-8">
-      <h1 className="text-4xl font-bold text-red-400 text-center">
-        Choose from the Best
-      </h1>
-      <UniversityGrid />
+    <div className="px-16 py-4 mt-8 flex">
+       
+      <div className="w-1/6 mr-4 mt-10">
+        <h2 className="text-xl font-semibold mb-2">Filter by Country</h2>
+        <div>
+          {uniqueCountries.map((country) => (
+            <div key={country} className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                id={country}  
+                checked={selectedCountries.includes(country)}
+                onChange={() => handleCountryChange(country)}
+                className="mr-2"
+              />
+              <label htmlFor={country}>{country}</label>  
+            </div>
+          ))}
+        </div>
+      </div>
+
+     
+      <div className="w-5/6">  
+        <h1 className="text-4xl font-bold text-red-400 text-center">
+          Choose from the Best
+        </h1>
+        <input
+          type="text"
+          placeholder="Search universities..."
+          className="mt-4 mb-4 p-2 border rounded-md w-full"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <UniversityGrid universitiesInfo={filteredUniversities} />
+      </div>
     </div>
   );
 };
 
 export default UniversityPage;
 
-const UniversityGrid = () => {
+const UniversityGrid = ({ universitiesInfo }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-      {universityData.map((university) => (
+      {universitiesInfo.map((university) => (
         <Link to={university.contactInfo.website}>
           <div
             key={university.name}
             className="bg-white rounded-lg h-96 shadow-md overflow-hidden"
           >
             <img
-              src={university.imagePath} // Dynamic image URL
+              src={university.imagePath}  
               alt={university.name}
               className="w-full h-48 object-cover"
             />
