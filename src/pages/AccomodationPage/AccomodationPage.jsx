@@ -54,20 +54,18 @@ const AccomodationPage = () => {
                   modules={[Pagination]}
                   className="mySwiper"
                 >
-                  {accommodation?.images.map((image, index) => (
+                  {accommodation?.images?.map((image, index) => (
                     <SwiperSlide key={index}>
                       <img
                         src={image.secure_url}
-                        alt={accommodation.name}
+                        alt={accommodation?.name}
                         className="w-full h-64 object-cover"
                       />
                     </SwiperSlide>
                   ))}
                 </Swiper>
               
-                {accommodation.featured && (
-                  <span className="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded-md text-sm font-semibold">Featured</span>
-                )}
+               
               </div>
 
 

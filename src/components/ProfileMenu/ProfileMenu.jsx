@@ -34,18 +34,19 @@ const handleLogout =()=>{
                       <li className="px-4 py-2  hover:text-white text-white  cursor-pointer text-center font-medium">
                         
                           <button
-                              className="px-6 py-2 border-2 border-orange-500  hover:bg-orange-500 hover:text-white    rounded-md w-full text-red-400"
+                              className="px-6 py-2 border-2 border-orange-500  hover:bg-orange-500 hover:text-white rounded-md w-full text-red-400"
                               onClick={handleProfile}
                           >
                               Profile
                           </button>
                         
                         </li>
+                        
                       <li className="px-4 py-2  cursor-pointer">
                           
                           
                           <button
-                              className="px-6 py-2 border-2 border-orange-500  hover:bg-orange-500 hover:text-white    rounded-md w-full text-red-400"
+                              className="px-6 py-2 border-2 border-orange-500  hover:bg-orange-500 hover:text-white rounded-md w-full text-red-400"
                               onClick={handleLogout}
                           >
                               Logout
