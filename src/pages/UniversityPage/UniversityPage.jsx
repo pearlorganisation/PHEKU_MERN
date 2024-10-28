@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUniversities } from "../../features/actions/universitiesAction";
 import { useDispatch, useSelector } from "react-redux";
+import { getCountries } from "../../features/actions/countriesActions";
 
 const universityData = [
   {
@@ -216,9 +217,17 @@ const UniversityPage = () => {
   const [selectedCountries, setSelectedCountries] = useState([]);
   const dispatch = useDispatch();
   
-// extracting only the unique countries from the data set
+// ----- getting countries  -----/
+const { countryInfo } = useSelector((state)=>state.countries)
+
+  useEffect(() => {
+    dispatch(getCountries());
+  }, [])
+
+
+  // extracting only the unique countries from the data set
   const uniqueCountries = [
-    ...new Set(universityData.map((university) => university.country)),
+    ...new Set(countryInfo.map((country) => country.name)),
   ];
 
    // filter handle

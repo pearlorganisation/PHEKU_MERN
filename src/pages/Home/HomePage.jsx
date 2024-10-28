@@ -5,20 +5,17 @@ import Data from "../../components/Data/Data";
 import Hero from "../../components/Hero/Hero";
 import OtherProducts from "../../components/OtherProducts/OtherProducts";
 import Prediction from "../../components/Prediction/Prediction";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { getUserProfile } from "../../features/actions/userAction";
 
-const HomePage = () => {
-  const { userInfo } = useSelector((state) => state.user);
-
+const HomePage = () => {    
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getUserProfile());
-  }, []);
-
-  console.log(userInfo, "auth user info");
-
+  const { isUserLoggedIn } = useSelector((state)=>state.auth);
+  if(isUserLoggedIn){
+   dispatch(getUserProfile())
+ 
+  }
   return (
     <div>
       <Hero />
