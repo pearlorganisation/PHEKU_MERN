@@ -45,7 +45,7 @@ const universityData = [
     location: "Stanford, California, USA",
     imagePath: "/stanford.jpg",
     country: "USA",
-highlights:
+    highlights:
       "Silicon Valley proximity, strong humanities programs, and a vibrant campus life.",
     overview:
       "Stanford is a private research university known for its entrepreneurial culture and interdisciplinary approach to learning.",
@@ -77,7 +77,7 @@ highlights:
     name: "University of Oxford",
     slug: "oxford",
     location: "Oxford, Oxfordshire, England",
-    imagePath: "/oxford.jpg", 
+    imagePath: "/oxford.jpg",
     country: "England",
     highlights:
       "World-renowned tutorial system, historic colleges, and a rich academic tradition.",
@@ -145,7 +145,7 @@ highlights:
     name: "Stanford University",
     slug: "stanford",
     location: "Stanford, California, USA",
-    country:"USA",
+    country: "USA",
     imagePath: "/stanford.jpg",
     highlights:
       "Silicon Valley proximity, strong humanities programs, and a vibrant campus life.",
@@ -216,36 +216,34 @@ const UniversityPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
   const dispatch = useDispatch();
-  
-// ----- getting countries  -----/
-const { countryInfo } = useSelector((state)=>state.countries)
+
+  // ----- getting countries  -----/
+  const { countryInfo } = useSelector((state) => state.countries);
 
   useEffect(() => {
     dispatch(getCountries());
-  }, [])
-
+  }, []);
 
   // extracting only the unique countries from the data set
   const uniqueCountries = [
-    ...new Set(countryInfo.map((country) => country.name)),
+    ...new Set(countryInfo?.map((country) => country.name)),
   ];
 
-   // filter handle
+  // filter handle
   const filteredUniversities = universityData.filter((university) => {
     // to select by name
     const nameMatch = university.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     // to select by coountry
-      const countryMatch =
-      selectedCountries.length === 0 ||   // no country selected show all universities
+    const countryMatch =
+      selectedCountries.length === 0 || // no country selected show all universities
       selectedCountries.includes(university.country);
-      return nameMatch && countryMatch;
+    return nameMatch && countryMatch;
   });
 
   // handler to filter by country
   const handleCountryChange = (country) => {
-    
     setSelectedCountries((prevSelected) => {
       if (prevSelected.includes(country)) {
         return prevSelected.filter((c) => c !== country);
@@ -255,10 +253,8 @@ const { countryInfo } = useSelector((state)=>state.countries)
     });
   };
 
-
   return (
     <div className="px-16 py-4 mt-8 flex">
-       
       <div className="w-1/6 mr-4 mt-10">
         <h2 className="text-xl font-semibold mb-2">Filter by Country</h2>
         <div>
@@ -266,19 +262,18 @@ const { countryInfo } = useSelector((state)=>state.countries)
             <div key={country} className="flex items-center mb-2">
               <input
                 type="checkbox"
-                id={country}  
+                id={country}
                 checked={selectedCountries.includes(country)}
                 onChange={() => handleCountryChange(country)}
                 className="mr-2"
               />
-              <label htmlFor={country}>{country}</label>  
+              <label htmlFor={country}>{country}</label>
             </div>
           ))}
         </div>
       </div>
 
-     
-      <div className="w-5/6">  
+      <div className="w-5/6">
         <h1 className="text-4xl font-bold text-red-400 text-center">
           Choose from the Best
         </h1>
@@ -308,7 +303,7 @@ const UniversityGrid = ({ universitiesInfo }) => {
             className="bg-white rounded-lg h-96 shadow-md overflow-hidden"
           >
             <img
-              src={university.imagePath}  
+              src={university.imagePath}
               alt={university.name}
               className="w-full h-48 object-cover"
             />
