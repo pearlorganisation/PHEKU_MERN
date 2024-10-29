@@ -15,6 +15,7 @@ import UniversityPage from "./pages/UniversityPage/UniversityPage";
 import Exams from "./pages/ExamsPage/Exams";
 import Courses from "./pages/CoursePage/Courses";
 import Profile from "./pages/ProfilePage/Profile";
+import Blog from "./pages/BlogPage/Blog";
  
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element:   <Profile /> 
+      },
+      {
+        path:"blogs",
+        element: <Blog />
       }
     ],
   },
