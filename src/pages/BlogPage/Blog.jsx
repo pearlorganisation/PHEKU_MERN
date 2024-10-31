@@ -1,29 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faLinkedinIn, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogs } from '../../features/actions/blogsAction';
+import { getCategories } from '../../features/actions/categoriesAction';
 
 const Blog = () => {
-    const studyAbroadOptions = [
-        {
-            country: 'Canada',
-            image: 'abr.jpg', // Replace with actual image paths
-            description: 'Explore top universities in Canada and find the perfect program for you.  Benefit from a world-class education and diverse cultural experiences.',
-            ieltsRequired: true, // Or false, if IELTS is not required
-        },
-        {
-            country: 'Australia',
-            image: 'aus.jpg',
-            description: 'Study in the land of sunshine and opportunity! Australia offers excellent academic institutions and a high standard of living.',
-            ieltsRequired: false,
-        },
-        {
-            country: 'UK',
-            image: 'aus.jpg',
-            description: 'Experience the rich history and culture of the UK while pursuing your studies at prestigious universities.',
-            ieltsRequired: true,
-        },
-        // Add more countries as needed
-    ];
     const recentPosts = [
         {
             title: 'Study in Australia from Bangladesh: Unlock Your Potential',
@@ -63,42 +45,54 @@ const Blog = () => {
 
     ];
 
+    const dispatch = useDispatch();
+    const { blogs } = useSelector((state)=>state.blog)
+    const { categories } = useSelector((state)=>state.categories)
+    useEffect(()=>{
+        dispatch(getBlogs());
+    },[]);
 
+    useEffect(() => {
+        dispatch(getCategories());
+    }, []);
+    console.log(blogs)
     return (
         <div className="p-20 grid grid-cols-1 md:grid-cols-3 gap-4"> 
             <div className="md:col-span-2">  
                 <div className="grid grid-cols-1 gap-4">
-                    {studyAbroadOptions.map((option) => (
-                        <div key={option.country} className="border rounded-lg shadow-md overflow-hidden flex items-center p-4">
+                    {blogs?.map((blog) => (
+                        <div key={blog?._id} className="border rounded-lg shadow-md overflow-hidden flex items-center p-4">
                             {/* Image section */}
                             <img
-                                src={option.image}
-                                alt={`Study in ${option.country}`}
+                                src={blog?.thumbImage?.secure_url}
+                                alt={blog?.title}
                                 className="w-52 h-40 object-cover mr-4"
                             />
 
                             {/* Text content section */}
                             <div className="flex-1">
-                                {/* Study Abroad label */}
-                                <span className="text-orange-600 font-semibold uppercase text-sm block mb-1">Study Abroad</span>
+                                {/* Category label */}
+                                <span className="text-orange-600 font-semibold uppercase text-sm block mb-1">
+                                    {blog?.category?.blogCategoryName}
+                                </span>
 
                                 {/* Title */}
-                                <h3 className="text-xl font-semibold mb-2">
-                                    Best University in {option.country} for Bangladeshi Students
-                                </h3>
+                                <h3 className="text-xl font-semibold mb-2">{blog?.title}</h3>
 
                                 {/* Description */}
                                 <p className="text-gray-700 mb-4">
-                                    {option.description}
+                                    {blog?.content?.slice(0, 100)} {/* Shortened description */}
+                                    {blog?.content?.length > 100 && "..."} {/* Ellipsis if truncated */}
                                 </p>
 
-                                {/* Read More button */}
+                                {/* Read More button (link to the actual blog post) */}
                                 <a
-                                    href="#"
+                                    href={`/blog/${blog?.slug}`}  
                                     className="inline-block bg-transparent border border-orange-600 text-orange-600 py-2 px-4 rounded-md hover:bg-orange-600 hover:text-white transition duration-300"
                                 >
                                     Read More
                                 </a>
+
 
                                 {/* Social Media Icons */}
                                 <div className="mt-4 flex space-x-3 text-gray-600">

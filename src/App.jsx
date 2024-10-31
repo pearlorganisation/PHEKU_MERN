@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
 import HomePage from "./pages/Home/HomePage";
-import BlogPage from "./pages/Blog/BlogPage";
+ 
 import LayoutComponent from "./components/Layout/LayoutComponent";
 import Login from "./pages/Auth/login/Login";
 import SignUp from "./pages/Auth/signUp/SignUp";
@@ -32,10 +32,7 @@ const router = createBrowserRouter([
       },
       { path: "accomodation",
         element: <AccomodationPage /> },
-      {
-        path: "about",
-        element: <BlogPage />,
-      },
+     
       {
         path: "login",
         element: <Login />,
