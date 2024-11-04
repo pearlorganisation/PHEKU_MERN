@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
-import { getBlogs } from "../actions/blogsAction";
+import { getBlogs, getRecentBlogs } from "../actions/blogsAction";
 
 const initialState = {
     isLoading: false,
     isError: false,
     isSuccess: false,
     blogs: null,
+    recentBlogs: null,
     message: null,
 };
 
@@ -31,6 +32,22 @@ const blogsSlice = createSlice({
             state.isLoading = false;
             state.isError = false
             state.blogs = action.payload;
+        })
+        .addCase(getRecentBlogs.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(getRecentBlogs.rejected,(state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.payload;
+        })
+        .addCase(getRecentBlogs.fulfilled,(state,action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.recentBlogs = action.payload;
+          
         })
     },
 });

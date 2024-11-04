@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faLinkedinIn, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBlogs } from '../../features/actions/blogsAction';
+import { getBlogs, getRecentBlogs } from '../../features/actions/blogsAction';
 import { getCategories } from '../../features/actions/categoriesAction';
 
 const Blog = () => {
@@ -48,14 +48,30 @@ const Blog = () => {
     const dispatch = useDispatch();
     const { blogs } = useSelector((state)=>state.blog)
     const { categories } = useSelector((state)=>state.categories)
+    const { recentBlogs } = useSelector((state)=>state.blog)
+
     useEffect(()=>{
         dispatch(getBlogs());
+        dispatch(getRecentBlogs())
     },[]);
+
+    useEffect(() => {
+        dispatch(getRecentBlogs())
+    }, []);
 
     useEffect(() => {
         dispatch(getCategories());
     }, []);
     console.log(blogs)
+
+
+    // estimate time helper function
+    function estimateReadTime(text) {
+        const wordsPerMinute = 200;
+        const wordCount = text.split(" ").length;
+        const readTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
+        return `${readTimeMinutes} min read`;
+    }
     return (
         <div className="p-20 grid grid-cols-1 md:grid-cols-3 gap-4"> 
             <div className="md:col-span-2">  
@@ -133,13 +149,24 @@ const Blog = () => {
                 <div className="border rounded-lg p-4">
                     <h4 className="text-lg font-semibold mb-2">Recent Uploads</h4>
                     <div> 
-                        {recentPosts.map((post, index) => (
+                        {recentBlogs?.map((post, index) => (
                             <div key={index} className="flex items-center mb-4 border-b pb-4">
-                                <img src={post.image} alt={post.title} className="w-20 h-16 object-cover mr-4 rounded-md" />
+                                <img
+                                    src={post?.thumbImage?.secure_url}  // Access the image URL correctly
+                                    alt={post?.title}
+                                    className="w-20 h-16 object-cover mr-4 rounded-md"
+                                />
                                 <div>
-                                    <a href={post.link} className="text-lg font-medium hover:underline">{post.title}</a>
+                                    <a
+                                        href={`/blog/${post?.slug}`} // Create link based on slug
+                                        className="text-lg font-medium hover:underline"
+                                    >
+                                        {post?.title}
+                                    </a>
                                     <div className="text-gray-600 text-sm">
-                                        <span>{post.date}</span> <span className="mx-1">•</span> <span>{post.readTime}</span>
+                                        <span>{new Date(post?.publishedAt).toLocaleDateString()}</span> {/* Format date */}
+                                        <span className="mx-1">•</span>
+                                        <span>{estimateReadTime(post.content)}</span> 
                                     </div>
                                 </div>
                             </div>
