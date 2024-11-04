@@ -56,11 +56,11 @@ const Blog = () => {
 
                                 {/* Description */}
                                 <p className="text-gray-700 mb-4">
-                                    {blog?.content?.slice(0, 100)} {/* Shortened description */}
-                                    {blog?.content?.length > 100 && "..."} {/* Ellipsis if truncated */}
+                                    {blog?.content?.slice(0, 100)}  
+                                    {blog?.content?.length > 100 && "..."}   
                                 </p>
 
-                                {/* Read More button (link to the actual blog post) */}
+                                 
                                 <a
                                     href={`/blog/${blog?.slug}`}  
                                     className="inline-block bg-transparent border border-orange-600 text-orange-600 py-2 px-4 rounded-md hover:bg-orange-600 hover:text-white transition duration-300"
@@ -94,7 +94,7 @@ const Blog = () => {
                     <h4 className="text-lg font-semibold mb-2">Filter by Category</h4>
                      {categories.map((category)=>(
                          <div key={category._id} className="flex items-center mb-2">
-                            {/* update this filter to search using params */}
+                           
                              <input
                                  type="checkbox"
                                  id={category}
@@ -111,13 +111,13 @@ const Blog = () => {
                         {recentBlogs?.map((post, index) => (
                             <div key={index} className="flex items-center mb-4 border-b pb-4">
                                 <img
-                                    src={post?.thumbImage?.secure_url}  // Access the image URL correctly
+                                    src={post?.thumbImage?.secure_url}   
                                     alt={post?.title}
                                     className="w-20 h-16 object-cover mr-4 rounded-md"
                                 />
                                 <div>
                                     <a
-                                        href={`/blog/${post?.slug}`} // Create link based on slug
+                                        href={`/blog/${post?.slug}`}  
                                         className="text-lg font-medium hover:underline"
                                     >
                                         {post?.title}
