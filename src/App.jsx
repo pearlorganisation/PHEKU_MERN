@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
 import HomePage from "./pages/Home/HomePage";
-import BlogPage from "./pages/Blog/BlogPage";
+ 
 import LayoutComponent from "./components/Layout/LayoutComponent";
 import Login from "./pages/Auth/login/Login";
 import SignUp from "./pages/Auth/signUp/SignUp";
@@ -16,6 +16,7 @@ import Exams from "./pages/ExamsPage/Exams";
 import Courses from "./pages/CoursePage/Courses";
 import Profile from "./pages/ProfilePage/Profile";
 import Blog from "./pages/BlogPage/Blog";
+import Accomodationdetails from "./pages/AccomodationDetails/Accomodationdetails";
  
 const router = createBrowserRouter([
   {
@@ -27,45 +28,47 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "stream",
+        path: "/stream",
         element: <Stream />,
       },
-      { path: "accomodation",
-        element: <AccomodationPage /> },
-      {
-        path: "about",
-        element: <BlogPage />,
+      { path: "/accomodation",
+        element: <AccomodationPage /> 
       },
+      { 
+        path: "/accomodation/:id",
+        element: <Accomodationdetails />
+      },
+
       {
-        path: "login",
+        path: "/login",
         element: <Login />,
       },
       {
-        path: "signUp",
+        path: "/signUp",
         element: <SignUp />,
       },
       {
-        path: "contact_us",
+        path: "/contact_us",
         element: <ContactUs />,
       },
       {
-        path: "university",
+        path: "/university",
         element: <UniversityPage />
       },
       {
-        path: "exams",
+        path: "/exams",
         element: <Exams />
       },
       {
-        path: "courses",
+        path: "/courses",
         element: <Courses />
       },
       {
-        path: "profile",
+        path: "/profile",
         element:   <Profile /> 
       },
       {
-        path:"blogs",
+        path:"/blogs",
         element: <Blog />
       }
     ],

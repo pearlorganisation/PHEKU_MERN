@@ -1,0 +1,55 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "sonner";
+import { getBlogs, getRecentBlogs } from "../actions/blogsAction";
+
+const initialState = {
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    blogs: null,
+    recentBlogs: null,
+    message: null,
+};
+
+const blogsSlice = createSlice({
+    name:"blogs",
+    initialState,
+    reducers:{},
+    extraReducers:(builder)=>{
+        builder
+        .addCase(getBlogs.pending,(state)=>{
+            state.isLoading = true;
+        })
+        .addCase(getBlogs.rejected,(state,action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.payload;
+            toast.error(action.payload,{ position: "top-center" });
+        })
+        .addCase(getBlogs.fulfilled,(state,action)=>{
+            state.isSuccess = true;
+            state.isLoading = false;
+            state.isError = false
+            state.blogs = action.payload;
+        })
+        .addCase(getRecentBlogs.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(getRecentBlogs.rejected,(state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.payload;
+        })
+        .addCase(getRecentBlogs.fulfilled,(state,action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.recentBlogs = action.payload;
+          
+        })
+    },
+});
+
+export default blogsSlice.reducer;

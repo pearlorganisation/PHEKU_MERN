@@ -1,104 +1,73 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faTwitter, faLinkedinIn, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogs, getRecentBlogs } from '../../features/actions/blogsAction';
+import { getCategories } from '../../features/actions/categoriesAction';
 
 const Blog = () => {
-    const studyAbroadOptions = [
-        {
-            country: 'Canada',
-            image: 'abr.jpg', // Replace with actual image paths
-            description: 'Explore top universities in Canada and find the perfect program for you.  Benefit from a world-class education and diverse cultural experiences.',
-            ieltsRequired: true, // Or false, if IELTS is not required
-        },
-        {
-            country: 'Australia',
-            image: 'aus.jpg',
-            description: 'Study in the land of sunshine and opportunity! Australia offers excellent academic institutions and a high standard of living.',
-            ieltsRequired: false,
-        },
-        {
-            country: 'UK',
-            image: 'aus.jpg',
-            description: 'Experience the rich history and culture of the UK while pursuing your studies at prestigious universities.',
-            ieltsRequired: true,
-        },
-        // Add more countries as needed
-    ];
-    const recentPosts = [
-        {
-            title: 'Study in Australia from Bangladesh: Unlock Your Potential',
-            image: 'aus.jpg', // Replace with actual image path
-            date: '2024-09-13',
-            readTime: '13 min read',
-            link: '#'
-        },
-        {
-            title: 'UK Universities that Accept Low GPA for Masters',
-            image: 'abr.jpg',
-            date: '2023-09-03',
-            readTime: '11 min read',
-            link: '#'
-        },
-        {
-            title: 'USA Universities that Accept Low GPA for Masters in 2024',
-            image: 'usa-universities.jpg',
-            date: '2023-10-06',
-            readTime: '12 min read',
-            link: '#'
-        },
-        {
-            title: 'Universities that Accept International Students with Low GPA',
-            image: 'international-students.jpg',
-            date: '2023-08-23',
-            readTime: '36 min read',
-            link: '#'
-        },
-        {
-            title: 'Best Courses to Study in Bangladesh',
-            image: 'bangladesh-courses.jpg',
-            date: '2023-07-14',
-            readTime: '9 min read',
-            link: '#'
-        },
+    const dispatch = useDispatch();
+    const { blogs } = useSelector((state)=>state.blog)
+    const { categories } = useSelector((state)=>state.categories)
+    const { recentBlogs } = useSelector((state)=>state.blog)
 
-    ];
+    useEffect(()=>{
+        dispatch(getBlogs());
+        dispatch(getRecentBlogs())
+    },[]);
+
+    useEffect(() => {
+        dispatch(getRecentBlogs())
+    }, []);
+
+    useEffect(() => {
+        dispatch(getCategories());
+    }, []);
+    console.log(blogs)
 
 
+    // estimate time helper function
+    function estimateReadTime(text) {
+        const wordsPerMinute = 200;
+        const wordCount = text.split(" ").length;
+        const readTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
+        return `${readTimeMinutes} min read`;
+    }
     return (
         <div className="p-20 grid grid-cols-1 md:grid-cols-3 gap-4"> 
             <div className="md:col-span-2">  
                 <div className="grid grid-cols-1 gap-4">
-                    {studyAbroadOptions.map((option) => (
-                        <div key={option.country} className="border rounded-lg shadow-md overflow-hidden flex items-center p-4">
+                    {blogs?.map((blog) => (
+                        <div key={blog?._id} className="border rounded-lg shadow-md overflow-hidden flex items-center p-4">
                             {/* Image section */}
                             <img
-                                src={option.image}
-                                alt={`Study in ${option.country}`}
+                                src={blog?.thumbImage?.secure_url}
+                                alt={blog?.title}
                                 className="w-52 h-40 object-cover mr-4"
                             />
 
                             {/* Text content section */}
                             <div className="flex-1">
-                                {/* Study Abroad label */}
-                                <span className="text-orange-600 font-semibold uppercase text-sm block mb-1">Study Abroad</span>
+                                {/* Category label */}
+                                <span className="text-orange-600 font-semibold uppercase text-sm block mb-1">
+                                    {blog?.category?.blogCategoryName}
+                                </span>
 
                                 {/* Title */}
-                                <h3 className="text-xl font-semibold mb-2">
-                                    Best University in {option.country} for Bangladeshi Students
-                                </h3>
+                                <h3 className="text-xl font-semibold mb-2">{blog?.title}</h3>
 
                                 {/* Description */}
                                 <p className="text-gray-700 mb-4">
-                                    {option.description}
+                                    {blog?.content?.slice(0, 100)}  
+                                    {blog?.content?.length > 100 && "..."}   
                                 </p>
 
-                                {/* Read More button */}
+                                 
                                 <a
-                                    href="#"
+                                    href={`/blog/${blog?.slug}`}  
                                     className="inline-block bg-transparent border border-orange-600 text-orange-600 py-2 px-4 rounded-md hover:bg-orange-600 hover:text-white transition duration-300"
                                 >
                                     Read More
                                 </a>
+
 
                                 {/* Social Media Icons */}
                                 <div className="mt-4 flex space-x-3 text-gray-600">
@@ -123,20 +92,40 @@ const Blog = () => {
             <div> 
                 <div className="border rounded-lg p-4 mb-4">
                     <h4 className="text-lg font-semibold mb-2">Filter by Category</h4>
-                     
-                    <p>Coming soon...</p>
+                     {categories.map((category)=>(
+                         <div key={category._id} className="flex items-center mb-2">
+                           
+                             <input
+                                 type="checkbox"
+                                 id={category}
+                                 className="mr-2"
+                             />
+                             <label htmlFor={category}>{category.blogCategoryName}</label>
+                         </div>
+                     ))}
                 </div>
 
                 <div className="border rounded-lg p-4">
                     <h4 className="text-lg font-semibold mb-2">Recent Uploads</h4>
                     <div> 
-                        {recentPosts.map((post, index) => (
+                        {recentBlogs?.map((post, index) => (
                             <div key={index} className="flex items-center mb-4 border-b pb-4">
-                                <img src={post.image} alt={post.title} className="w-20 h-16 object-cover mr-4 rounded-md" />
+                                <img
+                                    src={post?.thumbImage?.secure_url}   
+                                    alt={post?.title}
+                                    className="w-20 h-16 object-cover mr-4 rounded-md"
+                                />
                                 <div>
-                                    <a href={post.link} className="text-lg font-medium hover:underline">{post.title}</a>
+                                    <a
+                                        href={`/blog/${post?.slug}`}  
+                                        className="text-lg font-medium hover:underline"
+                                    >
+                                        {post?.title}
+                                    </a>
                                     <div className="text-gray-600 text-sm">
-                                        <span>{post.date}</span> <span className="mx-1">•</span> <span>{post.readTime}</span>
+                                        <span>{new Date(post?.publishedAt).toLocaleDateString()}</span> {/* Format date */}
+                                        <span className="mx-1">•</span>
+                                        <span>{estimateReadTime(post.content)}</span> 
                                     </div>
                                 </div>
                             </div>
