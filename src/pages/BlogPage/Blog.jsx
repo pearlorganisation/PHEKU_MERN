@@ -117,8 +117,17 @@ const Blog = () => {
             <div> 
                 <div className="border rounded-lg p-4 mb-4">
                     <h4 className="text-lg font-semibold mb-2">Filter by Category</h4>
-                     
-                    <p>Coming soon...</p>
+                     {categories.map((category)=>(
+                         <div key={category._id} className="flex items-center mb-2">
+                            {/* update this filter to search using params */}
+                             <input
+                                 type="checkbox"
+                                 id={category}
+                                 className="mr-2"
+                             />
+                             <label htmlFor={category}>{category.blogCategoryName}</label>
+                         </div>
+                     ))}
                 </div>
 
                 <div className="border rounded-lg p-4">

@@ -16,6 +16,7 @@ import Exams from "./pages/ExamsPage/Exams";
 import Courses from "./pages/CoursePage/Courses";
 import Profile from "./pages/ProfilePage/Profile";
 import Blog from "./pages/BlogPage/Blog";
+import Accomodationdetails from "./pages/AccomodationDetails/Accomodationdetails";
  
 const router = createBrowserRouter([
   {
@@ -31,8 +32,13 @@ const router = createBrowserRouter([
         element: <Stream />,
       },
       { path: "accomodation",
-        element: <AccomodationPage /> },
-     
+        element: <AccomodationPage /> 
+      },
+      { 
+        path: "accomodation/:id",
+        element: <Accomodationdetails />
+      },
+
       {
         path: "login",
         element: <Login />,

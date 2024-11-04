@@ -110,7 +110,7 @@ const AccomodationPage = () => {
 
                 </div>
                 <div className="mt-6">  
-                  <a href={`/accommodations/${accommodation._id}`} className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300">View Details</a>
+                  <a href={`/accommodation/${accommodation._id}`} className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300">View Details</a>
                 </div>
               </div>
             </div>
