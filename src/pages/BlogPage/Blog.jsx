@@ -1,50 +1,9 @@
 import React, { useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faTwitter, faLinkedinIn, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs, getRecentBlogs } from '../../features/actions/blogsAction';
 import { getCategories } from '../../features/actions/categoriesAction';
 
 const Blog = () => {
-    const recentPosts = [
-        {
-            title: 'Study in Australia from Bangladesh: Unlock Your Potential',
-            image: 'aus.jpg', // Replace with actual image path
-            date: '2024-09-13',
-            readTime: '13 min read',
-            link: '#'
-        },
-        {
-            title: 'UK Universities that Accept Low GPA for Masters',
-            image: 'abr.jpg',
-            date: '2023-09-03',
-            readTime: '11 min read',
-            link: '#'
-        },
-        {
-            title: 'USA Universities that Accept Low GPA for Masters in 2024',
-            image: 'usa-universities.jpg',
-            date: '2023-10-06',
-            readTime: '12 min read',
-            link: '#'
-        },
-        {
-            title: 'Universities that Accept International Students with Low GPA',
-            image: 'international-students.jpg',
-            date: '2023-08-23',
-            readTime: '36 min read',
-            link: '#'
-        },
-        {
-            title: 'Best Courses to Study in Bangladesh',
-            image: 'bangladesh-courses.jpg',
-            date: '2023-07-14',
-            readTime: '9 min read',
-            link: '#'
-        },
-
-    ];
-
     const dispatch = useDispatch();
     const { blogs } = useSelector((state)=>state.blog)
     const { categories } = useSelector((state)=>state.categories)
