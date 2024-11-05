@@ -11,7 +11,7 @@ const Blog = () => {
 
     useEffect(()=>{
         dispatch(getBlogs());
-        dispatch(getRecentBlogs())
+        
     },[]);
 
     useEffect(() => {
@@ -92,15 +92,15 @@ const Blog = () => {
             <div> 
                 <div className="border rounded-lg p-4 mb-4">
                     <h4 className="text-lg font-semibold mb-2">Filter by Category</h4>
-                     {categories.map((category)=>(
-                         <div key={category._id} className="flex items-center mb-2">
+                     {categories?.map((category)=>(
+                         <div key={category?._id} className="flex items-center mb-2">
                            
                              <input
                                  type="checkbox"
                                  id={category}
                                  className="mr-2"
                              />
-                             <label htmlFor={category}>{category.blogCategoryName}</label>
+                             <label htmlFor={category}>{category?.blogCategoryName}</label>
                          </div>
                      ))}
                 </div>
@@ -125,7 +125,7 @@ const Blog = () => {
                                     <div className="text-gray-600 text-sm">
                                         <span>{new Date(post?.publishedAt).toLocaleDateString()}</span> {/* Format date */}
                                         <span className="mx-1">•</span>
-                                        <span>{estimateReadTime(post.content)}</span> 
+                                        <span>{estimateReadTime(post?.content)}</span> 
                                     </div>
                                 </div>
                             </div>
