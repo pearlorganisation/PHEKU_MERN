@@ -16,10 +16,10 @@ const ProfileMenuDropdown = () => {
     const handleProfile =()=>{
         navigate("/profile")
     }
-const handleLogout =()=>{
-    dipsatch(clearUser());
-    navigate("/login");
-}
+    const handleLogout =()=>{
+        dipsatch(clearUser());
+        navigate("/login");
+    }
   return (
       <div className="relative inline-block z-20">
           <button

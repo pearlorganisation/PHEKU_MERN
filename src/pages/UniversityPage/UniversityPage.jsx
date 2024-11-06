@@ -222,15 +222,17 @@ const UniversityPage = () => {
 
   useEffect(() => {
     dispatch(getCountries());
-  }, []);
+    dispatch(getUniversities())
+  }, [])
+
 
   // extracting only the unique countries from the data set
   const uniqueCountries = [
     ...new Set(countryInfo?.map((country) => country.name)),
   ];
 
-  // filter handle
-  const filteredUniversities = universityData.filter((university) => {
+   // filter handle
+  const filteredUniversities = universities.filter((university) => {
     // to select by name
     const nameMatch = university.name
       .toLowerCase()
@@ -258,7 +260,7 @@ const UniversityPage = () => {
       <div className="w-1/6 mr-4 mt-10">
         <h2 className="text-xl font-semibold mb-2">Filter by Country</h2>
         <div>
-          {uniqueCountries.map((country) => (
+          {uniqueCountries?.map((country) => (
             <div key={country} className="flex items-center mb-2">
               <input
                 type="checkbox"
@@ -296,39 +298,39 @@ export default UniversityPage;
 const UniversityGrid = ({ universitiesInfo }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
-      {universitiesInfo.map((university) => (
-        <Link to={university.contactInfo.website}>
+      {universitiesInfo?.map((university) => (
+        <Link to={university?.contactInfo?.website}>
           <div
-            key={university.name}
+            key={university?.name}
             className="bg-white rounded-lg h-96 shadow-md overflow-hidden"
           >
             <img
-              src={university.imagePath}
-              alt={university.name}
+              src={university?.imagePath}  
+              alt={university?.name}
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{university.name}</h2>
+              <h2 className="text-xl font-semibold mb-2">{university?.name}</h2>
               <p className="text-gray-600 mb-1">
                 <i className="fas fa-map-marker-alt mr-2"></i>
-                {university.location}
+                {university?.location}
               </p>
               <p className="text-gray-600 mb-1">
                 <i className="fas fa-globe mr-2"></i> Global Rank:{" "}
-                {university.ranking?.global || "N/A"}
+                {university?.ranking?.global || "N/A"}
               </p>
               <p className="text-gray-600 mb-1">
                 <i className="fas fa-flag mr-2"></i> National Rank:{" "}
-                {university.ranking?.national || "N/A"}
+                {university?.ranking?.national || "N/A"}
               </p>
               <a
-                href={university.contactInfo.website}
+                href={university?.contactInfo?.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500"
               >
                 <i className="fas fa-link mr-2"></i>{" "}
-                {university.contactInfo.website}
+                {university?.contactInfo?.website}
               </a>
             </div>
           </div>
