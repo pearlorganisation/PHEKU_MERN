@@ -3,12 +3,13 @@ import { axiosInstance } from "../../services/axiosInterceptor";
 
 
 export const getBlogs = createAsyncThunk(
-    "blogs/getBlogs",async(_,{ rejectWithValue })=>{
+    "blogs/getBlogs",async(params,{ rejectWithValue })=>{
         try {
             const config = {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                params
             };
             const {
                 data

@@ -1,13 +1,55 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs, getRecentBlogs } from '../../features/actions/blogsAction';
 import { getCategories } from '../../features/actions/categoriesAction';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Blog = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const { blogs } = useSelector((state)=>state.blog)
     const { categories } = useSelector((state)=>state.categories)
     const { recentBlogs } = useSelector((state)=>state.blog)
+
+    /*--------------------------------Storing Category filter-------------- */
+    const [selectedCategory, setSelectedCategory] = useState([]);
+   /* -------------------handle for selecting category--------------------- */
+   const handleSelectCategory = (type)=>{
+    let updatedCategory = [...selectedCategory];
+    if(updatedCategory.includes(type)){
+        updatedCategory= updatedCategory.filter((t)=> t != type)
+    }else{
+        updatedCategory.push(type);
+    }
+        setSelectedCategory(updatedCategory)
+   }
+   /*-------------------------useEffect for getting the blogs by category wise---------------------------------------------------------------- */
+   useEffect(()=>{
+    const searchParams = new URLSearchParams(location.search);
+    const existingCategory = searchParams.getAll("category");
+
+    if(selectedCategory.sort().join(",") !== existingCategory.sort().join(",")){
+        searchParams.delete("category");
+        // add each option to the url
+        selectedCategory.forEach((type)=>searchParams.append("category",type));
+
+        navigate(
+            {
+                pathname: location.pathname,
+                search: searchParams.toString(),
+            },
+            { replace: true }
+        );
+    }
+    // dispatching blogs with params //
+    dispatch(getBlogs({
+        category: selectedCategory
+    }));
+   },[selectedCategory,navigate, location, dispatch]);
+
+
 
     useEffect(()=>{
         dispatch(getBlogs());
@@ -58,6 +100,7 @@ const Blog = () => {
                                 <p className="text-gray-700 mb-4">
                                     {blog?.content?.slice(0, 100)}  
                                     {blog?.content?.length > 100 && "..."}   
+                                    
                                 </p>
 
                                  
@@ -66,8 +109,10 @@ const Blog = () => {
                                     className="inline-block bg-transparent border border-orange-600 text-orange-600 py-2 px-4 rounded-md hover:bg-orange-600 hover:text-white transition duration-300"
                                 >
                                     Read More
+                                    
                                 </a>
-
+                                <span className="mx-1 pl-3">•</span>
+                                {estimateReadTime(blog?.content)}
 
                                 {/* Social Media Icons */}
                                 <div className="mt-4 flex space-x-3 text-gray-600">
@@ -98,6 +143,9 @@ const Blog = () => {
                              <input
                                  type="checkbox"
                                  id={category}
+                                 value={category?._id}
+                                 onChange={(e)=> handleSelectCategory(category?._id)}
+                                 defaultChecked={false}
                                  className="mr-2"
                              />
                              <label htmlFor={category}>{category?.blogCategoryName}</label>
