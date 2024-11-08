@@ -17,6 +17,7 @@ import Courses from "./pages/CoursePage/Courses";
 import Profile from "./pages/ProfilePage/Profile";
 import Blog from "./pages/BlogPage/Blog";
 import Accomodationdetails from "./pages/AccomodationDetails/Accomodationdetails";
+import BlogDetails from "./pages/BlogDetailsPage/BlogDetails";
  
 const router = createBrowserRouter([
   {
@@ -70,7 +71,11 @@ const router = createBrowserRouter([
       {
         path:"/blogs",
         element: <Blog />
-      }
+      },
+      {
+        path: "/blogs/:id",
+        element: <BlogDetails />
+      },
     ],
   },
 ]);

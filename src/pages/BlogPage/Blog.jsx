@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs, getRecentBlogs } from '../../features/actions/blogsAction';
 import { getCategories } from '../../features/actions/categoriesAction';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Blog = () => {
     const dispatch = useDispatch();
@@ -53,17 +54,18 @@ const Blog = () => {
 
     useEffect(()=>{
         dispatch(getBlogs());
-        
+        dispatch(getRecentBlogs());
+        dispatch(getCategories());
     },[]);
 
-    useEffect(() => {
-        dispatch(getRecentBlogs())
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getRecentBlogs())
+    // }, []);
 
-    useEffect(() => {
-        dispatch(getCategories());
-    }, []);
-    console.log(blogs)
+    // useEffect(() => {
+    //     dispatch(getCategories());
+    // }, []);
+    // console.log(blogs)
 
 
     // estimate time helper function
@@ -104,13 +106,13 @@ const Blog = () => {
                                 </p>
 
                                  
-                                <a
-                                    href={`/blog/${blog?.slug}`}  
+                                <Link
+                                    to={`/blogs/${blog?._id}`}  
                                     className="inline-block bg-transparent border border-orange-600 text-orange-600 py-2 px-4 rounded-md hover:bg-orange-600 hover:text-white transition duration-300"
                                 >
                                     Read More
                                     
-                                </a>
+                                </Link>
                                 <span className="mx-1 pl-3">•</span>
                                 {estimateReadTime(blog?.content)}
 
@@ -164,12 +166,12 @@ const Blog = () => {
                                     className="w-20 h-16 object-cover mr-4 rounded-md"
                                 />
                                 <div>
-                                    <a
-                                        href={`/blog/${post?.slug}`}  
+                                    <Link
+                                        to={`/blogs/${post?._id}`}  
                                         className="text-lg font-medium hover:underline"
                                     >
                                         {post?.title}
-                                    </a>
+                                    </Link>
                                     <div className="text-gray-600 text-sm">
                                         <span>{new Date(post?.publishedAt).toLocaleDateString()}</span> {/* Format date */}
                                         <span className="mx-1">•</span>

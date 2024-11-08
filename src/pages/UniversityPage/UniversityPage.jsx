@@ -232,15 +232,15 @@ const { countryInfo } = useSelector((state)=>state.countries)
   ];
 
    // filter handle
-  const filteredUniversities = universities.filter((university) => {
+  const filteredUniversities = universities?.filter((university) => {
     // to select by name
-    const nameMatch = university.name
+    const nameMatch = university?.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     // to select by coountry
       const countryMatch =
       selectedCountries.length === 0 ||   // no country selected show all universities
-      selectedCountries.includes(university.country);
+      selectedCountries.includes(university?.country);
       return nameMatch && countryMatch;
   });
 
