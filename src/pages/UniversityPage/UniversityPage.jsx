@@ -1,217 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getUniversities } from "../../features/actions/universitiesAction";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountries } from "../../features/actions/countriesActions";
-
-const universityData = [
-  {
-    name: "Massachusetts Institute of Technology (MIT)",
-    slug: "mit",
-    imagePath: "/mit.jpg",
-    location: "Cambridge, Massachusetts, USA",
-    country: "USA",
-    highlights:
-      "Renowned for its STEM programs, groundbreaking research, and entrepreneurial spirit.",
-    overview:
-      "MIT is a private research university known for its rigorous academics and focus on innovation.",
-    contactInfo: {
-      email: "mitinfo@mit.edu",
-      website: "http://www.mit.edu",
-    },
-    ranking: {
-      global: 1,
-      national: 1,
-    },
-    universities: [],
-    faculties: [
-      {
-        name: "Robert Langer",
-        position: "Professor of Chemical Engineering",
-        department: "Chemical Engineering",
-        contactEmail: "langer@mit.edu",
-      },
-      {
-        name: "Nergis Mavalvala",
-        position: "Professor of Astrophysics",
-        department: "Physics",
-        contactEmail: "nmavalvala@mit.edu",
-      },
-    ],
-  },
-  {
-    name: "Stanford University",
-    slug: "stanford",
-    location: "Stanford, California, USA",
-    imagePath: "/stanford.jpg",
-    country: "USA",
-highlights:
-      "Silicon Valley proximity, strong humanities programs, and a vibrant campus life.",
-    overview:
-      "Stanford is a private research university known for its entrepreneurial culture and interdisciplinary approach to learning.",
-    contactInfo: {
-      email: "info@stanford.edu",
-      website: "http://www.stanford.edu",
-    },
-    ranking: {
-      global: 2,
-      national: 2,
-    },
-    universities: [],
-    faculties: [
-      {
-        name: "Andrew Ng",
-        position: "Adjunct Professor of Computer Science",
-        department: "Computer Science",
-        contactEmail: "ang@cs.stanford.edu",
-      },
-      {
-        name: "Condoleezza Rice",
-        position: "Professor of Political Science",
-        department: "Political Science",
-        contactEmail: "crice@stanford.edu",
-      },
-    ],
-  },
-  {
-    name: "University of Oxford",
-    slug: "oxford",
-    location: "Oxford, Oxfordshire, England",
-    imagePath: "/oxford.jpg", 
-    country: "England",
-    highlights:
-      "World-renowned tutorial system, historic colleges, and a rich academic tradition.",
-    overview:
-      "Oxford is a collegiate research university, one of the oldest universities in the English-speaking world.",
-    contactInfo: {
-      email: "enquiries@admin.ox.ac.uk",
-      website: "http://www.ox.ac.uk",
-    },
-    ranking: {
-      global: 3,
-      national: 1,
-    },
-    universities: [],
-    faculties: [
-      {
-        name: "Louise Richardson",
-        position: "Vice-Chancellor",
-        department: "Administration",
-        contactEmail: "vc@ox.ac.uk",
-      },
-      {
-        name: "Richard Dawkins",
-        position: "Emeritus Fellow",
-        department: "Zoology",
-        contactEmail: "richard.dawkins@zoo.ox.ac.uk",
-      },
-    ],
-  },
-  {
-    name: "Massachusetts Institute of Technology (MIT)",
-    slug: "mit",
-    imagePath: "/mit.jpg",
-    location: "Cambridge, Massachusetts, USA",
-    country: "USA",
-    highlights:
-      "Renowned for its STEM programs, groundbreaking research, and entrepreneurial spirit.",
-    overview:
-      "MIT is a private research university known for its rigorous academics and focus on innovation.",
-    contactInfo: {
-      email: "mitinfo@mit.edu",
-      website: "http://www.mit.edu",
-    },
-    ranking: {
-      global: 1,
-      national: 1,
-    },
-    universities: [],
-    faculties: [
-      {
-        name: "Robert Langer",
-        position: "Professor of Chemical Engineering",
-        department: "Chemical Engineering",
-        contactEmail: "langer@mit.edu",
-      },
-      {
-        name: "Nergis Mavalvala",
-        position: "Professor of Astrophysics",
-        department: "Physics",
-        contactEmail: "nmavalvala@mit.edu",
-      },
-    ],
-  },
-  {
-    name: "Stanford University",
-    slug: "stanford",
-    location: "Stanford, California, USA",
-    country:"USA",
-    imagePath: "/stanford.jpg",
-    highlights:
-      "Silicon Valley proximity, strong humanities programs, and a vibrant campus life.",
-    overview:
-      "Stanford is a private research university known for its entrepreneurial culture and interdisciplinary approach to learning.",
-    contactInfo: {
-      email: "info@stanford.edu",
-      website: "http://www.stanford.edu",
-    },
-    ranking: {
-      global: 2,
-      national: 2,
-    },
-    universities: [],
-    faculties: [
-      {
-        name: "Andrew Ng",
-        position: "Adjunct Professor of Computer Science",
-        department: "Computer Science",
-        contactEmail: "ang@cs.stanford.edu",
-      },
-      {
-        name: "Condoleezza Rice",
-        position: "Professor of Political Science",
-        department: "Political Science",
-        contactEmail: "crice@stanford.edu",
-      },
-    ],
-  },
-  {
-    name: "University of Oxford",
-    slug: "oxford",
-    location: "Oxford, Oxfordshire, England",
-    imagePath: "/oxford.jpg",
-    country: "England",
-    highlights:
-      "World-renowned tutorial system, historic colleges, and a rich academic tradition.",
-    overview:
-      "Oxford is a collegiate research university, one of the oldest universities in the English-speaking world.",
-    contactInfo: {
-      email: "enquiries@admin.ox.ac.uk",
-      website: "http://www.ox.ac.uk",
-    },
-    ranking: {
-      global: 3,
-      national: 1,
-    },
-    universities: [],
-    faculties: [
-      {
-        name: "Louise Richardson",
-        position: "Vice-Chancellor",
-        department: "Administration",
-        contactEmail: "vc@ox.ac.uk",
-      },
-      {
-        name: "Richard Dawkins",
-        position: "Emeritus Fellow",
-        department: "Zoology",
-        contactEmail: "richard.dawkins@zoo.ox.ac.uk",
-      },
-    ],
-  },
-];
-
 const UniversityPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { universities } = useSelector((state) => state.university);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
@@ -238,24 +32,44 @@ const { countryInfo } = useSelector((state)=>state.countries)
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     // to select by coountry
-      const countryMatch =
-      selectedCountries.length === 0 ||   // no country selected show all universities
-      selectedCountries.includes(university?.country);
-      return nameMatch && countryMatch;
+   
+      return nameMatch;
   });
 
   // handler to filter by country
   const handleCountryChange = (country) => {
-    
-    setSelectedCountries((prevSelected) => {
-      if (prevSelected.includes(country)) {
-        return prevSelected.filter((c) => c !== country);
-      } else {
-        return [...prevSelected, country];
-      }
-    });
+    let updatedCountries = [...selectedCountries];
+    if(updatedCountries.includes(country)){
+      updatedCountries = updatedCountries.filter((ct)=> ct != country)
+    }else{
+      updatedCountries.push(country);
+    }
+    setSelectedCountries(updatedCountries);
   };
 
+  useEffect(()=>{
+    const searchParams = new URLSearchParams(location.search);
+    const existingCountry = searchParams.getAll("country");
+
+    if(selectedCountries.sort().join(",") !== existingCountry.sort().join(",")){
+      searchParams.delete("country");
+      selectedCountries.forEach((country)=>searchParams.append("country",country));
+
+      navigate({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      },
+      { replace: true }
+     );
+    }
+   
+    dispatch(
+      getCountries({
+      country : selectedCountries
+    })
+   );
+
+  },[selectedCountries, navigate, location, dispatch])
 
   return (
     <div className="px-16 py-4 mt-8 flex">
@@ -268,7 +82,7 @@ const { countryInfo } = useSelector((state)=>state.countries)
               <input
                 type="checkbox"
                 id={country}  
-                checked={selectedCountries.includes(country)}
+                value={country}
                 onChange={() => handleCountryChange(country)}
                 className="mr-2"
               />
