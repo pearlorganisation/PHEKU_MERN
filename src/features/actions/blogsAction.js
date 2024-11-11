@@ -3,12 +3,13 @@ import { axiosInstance } from "../../services/axiosInterceptor";
 
 
 export const getBlogs = createAsyncThunk(
-    "blogs/getBlogs",async(_,{ rejectWithValue })=>{
+    "blogs/getBlogs",async(params,{ rejectWithValue })=>{
         try {
             const config = {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                params
             };
             const {
                 data
@@ -53,3 +54,25 @@ export const getBlogs = createAsyncThunk(
             }
         }
     )
+
+    /*---------------------To Get By Id-----------------------------------*/
+
+    export const getSingleBlog = createAsyncThunk(
+        "get/blogById", async(id, { rejectWithValue})=>{
+            try {
+                const config = {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            const { data } = await axiosInstance.get(`/api/v1/blogs/${id}`,config)
+            console.log("Single Blog Data", data);
+            return data.data;
+            } catch (error) {
+                 if (error.response && error.response.data.message) {
+                     return rejectWithValue(error.response.data.message);
+                 } else {
+                     return rejectWithValue(error.message);
+                 }
+            }
+        })
