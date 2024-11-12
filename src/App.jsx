@@ -18,6 +18,10 @@ import Profile from "./pages/ProfilePage/Profile";
 import Blog from "./pages/BlogPage/Blog";
 import Accomodationdetails from "./pages/AccomodationDetails/Accomodationdetails";
 import BlogDetails from "./pages/BlogDetailsPage/BlogDetails";
+import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/ForgotPassword/ResetPassword";
+
  
 const router = createBrowserRouter([
   {
@@ -76,6 +80,18 @@ const router = createBrowserRouter([
         path: "/blogs/:id",
         element: <BlogDetails />
       },
+      {
+        path: "/update-password",
+        element: <UpdatePassword />  
+      },
+      {
+        path:"/forgot-password",
+        element: <ForgotPassword />
+      },
+      {
+        path: "/reset/:resetToken",
+        element: <ResetPassword />
+      }
     ],
   },
 ]);

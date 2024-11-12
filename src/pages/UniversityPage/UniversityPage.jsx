@@ -6,7 +6,7 @@ import { getCountries } from "../../features/actions/countriesActions";
 const UniversityPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { universities } = useSelector((state) => state.university);
+  const { universities, isSuccess } = useSelector((state) => state.university);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
   const dispatch = useDispatch();
@@ -21,9 +21,9 @@ const { countryInfo } = useSelector((state)=>state.countries)
 
 
   // extracting only the unique countries from the data set
-  const uniqueCountries = [
-    ...new Set(countryInfo?.map((country) => country.name)),
-  ];
+  // const uniqueCountries = [
+  //   ...new Set(countryInfo?.map((country) => country.name)),
+  // ];
 
    // filter handle
   const filteredUniversities = universities?.filter((university) => {
@@ -36,40 +36,41 @@ const { countryInfo } = useSelector((state)=>state.countries)
       return nameMatch;
   });
 
-  // handler to filter by country
   const handleCountryChange = (country) => {
     let updatedCountries = [...selectedCountries];
-    if(updatedCountries.includes(country)){
-      updatedCountries = updatedCountries.filter((ct)=> ct != country)
-    }else{
-      updatedCountries.push(country);
+    if (updatedCountries.includes(country._id)) {
+      updatedCountries = updatedCountries.filter((ct) => ct !== country._id);
+    } else {
+      updatedCountries.push(country._id);
     }
     setSelectedCountries(updatedCountries);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const existingCountry = searchParams.getAll("country");
+    const existingCountryIds = searchParams.getAll("country");
 
-    if(selectedCountries.sort().join(",") !== existingCountry.sort().join(",")){
+    // Only update search params if there’s a change in selected countries
+    if (selectedCountries.sort().join(",") !== existingCountryIds.sort().join(",")) {
       searchParams.delete("country");
-      selectedCountries.forEach((country)=>searchParams.append("country",country));
+      selectedCountries.forEach((countryId) => searchParams.append("country", countryId));
 
-      navigate({
-        pathname: location.pathname,
-        search: searchParams.toString(),
-      },
-      { replace: true }
-     );
+      navigate(
+        {
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        },
+        { replace: true }
+      );
     }
-   
-    dispatch(
-      getCountries({
-      country : selectedCountries
-    })
-   );
 
-  },[selectedCountries, navigate, location, dispatch])
+    // Dispatch action to get universities with selected country IDs
+    dispatch(
+      getUniversities({
+        country: selectedCountries, // Pass selected country IDs
+      })
+    );
+  }, [selectedCountries, navigate, location, dispatch]);
 
   return (
     <div className="px-16 py-4 mt-8 flex">
@@ -77,16 +78,16 @@ const { countryInfo } = useSelector((state)=>state.countries)
       <div className="w-1/6 mr-4 mt-10">
         <h2 className="text-xl font-semibold mb-2">Filter by Country</h2>
         <div>
-          {uniqueCountries?.map((country) => (
-            <div key={country} className="flex items-center mb-2">
+          {countryInfo?.map((country) => (
+            <div key={country?._id} className="flex items-center mb-2">
               <input
                 type="checkbox"
                 id={country}  
-                value={country}
+                value={country?._id}
                 onChange={() => handleCountryChange(country)}
                 className="mr-2"
               />
-              <label htmlFor={country}>{country}</label>  
+              <label htmlFor={country}>{country?.name}</label>  
             </div>
           ))}
         </div>
@@ -104,8 +105,8 @@ const { countryInfo } = useSelector((state)=>state.countries)
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-
-        <UniversityGrid universitiesInfo={filteredUniversities} />
+        {isSuccess ? <UniversityGrid universitiesInfo={filteredUniversities} />:<><div className="text-red-600">No University found</div></>}
+         
       </div>
     </div>
   );

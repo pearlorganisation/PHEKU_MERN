@@ -37,7 +37,7 @@ export const userLogin = createAsyncThunk(
         },
       };
       const { data } = await axiosInstance.post(
-        "api/v1/auth/login",
+        "/api/v1/auth/login",
         { email, password },
         config
       );
@@ -55,3 +55,5 @@ export const userLogin = createAsyncThunk(
     }
   }
 );
+
+ 

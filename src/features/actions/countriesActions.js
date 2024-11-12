@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../services/axiosInterceptor";
 
-export const getCountries = createAsyncThunk("countries/getCountries",async(params,{rejectWithValue })=>{
+export const getCountries = createAsyncThunk("countries/getCountries",async(_,{rejectWithValue })=>{
     try{
         const config = {
             headers:{
                 "Content-Type": "application/json",
             },
-            params
+            
         };
         const {
             data

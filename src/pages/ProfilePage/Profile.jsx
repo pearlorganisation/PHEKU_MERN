@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import UpdateUser from '../../components/UpdateUserModal/UpdateUser';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
     const { userInfo } = useSelector((state) => state.user);
@@ -33,7 +34,6 @@ const Profile = () => {
                     <div className='flex justify-between items-center mb-6'>
                         <h2 className="text-xl font-semibold">Your Profile</h2>
                         <button className='bg-blue-200 rounded p-2' onClick={handleEdit}>Update Profile</button>
-
                     </div>
 
                     <div>
@@ -73,6 +73,14 @@ const Profile = () => {
                 )}
                 <EducationSummary />
                 <TestScores />
+
+                {/*  Update passowrd when user is logged in */}
+                
+                <div className="bg-white p-8 rounded-lg shadow-2xl mt-4">
+                    <Link to="/update-password"> 
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Change Password</button>
+                    </Link>
+                </div>            
             </div>
         </div>
 
