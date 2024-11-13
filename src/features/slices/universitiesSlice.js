@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { toast } from "sonner";
-import { getUniversities } from "../actions/universitiesAction";
+import { getUniversities, getUniversityById } from "../actions/universitiesAction";
 
 const initialState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
   universities: null,
+  universityInfo: null,
   message: null,
 };
 
@@ -32,7 +33,23 @@ const universitiesSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         state.universities = action.payload;
-      });
+      })
+      .addCase(getUniversityById.pending,(state)=>{
+        state.isLoading = true;
+      })
+      .addCase(getUniversityById.rejected,(state,action)=>{
+        state.isLoading = false;
+        state.isError= true;
+        state.isSuccess = false
+        toast.error(action.payload,{ position:"top-right"})
+      })
+      .addCase(getUniversityById.fulfilled,(state,action)=>{
+        state.isLoading= false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.universityInfo = action.payload;
+        toast.success("Retreived the university",{ position:"top-right" })
+      })
   },
 });
 
