@@ -1,30 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../services/axiosInterceptor";
 
-<<<<<<< HEAD
 export const getCountries = createAsyncThunk(
   "countries/getCountries",
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
+        params,
       };
       const { data } = await axiosInstance.get(`/api/v1/countries`, config);
-=======
-export const getCountries = createAsyncThunk("countries/getCountries",async(params,{rejectWithValue })=>{
-    try{
-        const config = {
-            headers:{
-                "Content-Type": "application/json",
-            },
-            params
-        };
-        const {
-            data
-        } = await axiosInstance.get(`/api/v1/countries`, config);
->>>>>>> 05c84004369d51fbb2e0bcd482f749f334e8233a
 
       console.log("countries Data", data);
 
