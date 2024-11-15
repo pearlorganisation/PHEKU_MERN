@@ -1,16 +1,24 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosInstance } from "../../services/axiosInterceptor";
+import {
+  createAsyncThunk
+} from "@reduxjs/toolkit";
+import {
+  axiosInstance
+} from "../../services/axiosInterceptor";
 
 export const getUserProfile = createAsyncThunk(
   "user/getProfile",
-  async (_, { rejectWithValue }) => {
+  async (_, {
+    rejectWithValue
+  }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axiosInstance.get(`/api/v1/users/me`, config);
+      const {
+        data
+      } = await axiosInstance.get(`/api/v1/users/me`, config);
 
       console.log("Profile Data", data);
 
@@ -28,16 +36,27 @@ export const getUserProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   "user/updateProfile",
-  async ({ fullName, mobileNumber, email }, { rejectWithValue }) => {
+  async ({
+    fullName,
+    mobileNumber,
+    email
+  }, {
+    rejectWithValue
+  }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axiosInstance.patch(
-        `/api/v1/users/me`,
-        { fullName, mobileNumber, email },
+      const {
+        data
+      } = await axiosInstance.patch(
+        `/api/v1/users/me`, {
+          fullName,
+          mobileNumber,
+          email
+        },
         config
       );
 
@@ -54,3 +73,61 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+
+
+/**----------------------------------Updating password when user is logged in----------------------------------------------------------------*/
+
+export const updatePassword = createAsyncThunk(
+  "user/updatePassword", async ({
+    currentPassword,
+    newPassword
+  }, {
+    rejectWithValue
+  }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+
+      const {
+        data
+      } = await axiosInstance.patch("/api/v1/auth/update", {
+        currentPassword,
+        newPassword
+      }, config);
+      console.log(data.data, "New updated password data")
+      return data.data
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  });
+
+
+  /*------------------for sending the email to reset the password---------------------------------------------- */
+
+  export const sendEmail = createAsyncThunk(
+    "user/resetEmail",async({ email },{ rejectWithValue })=>{
+      try {
+        const config ={
+          headers :{
+            "Content-Type": "application/json"
+          }
+        }
+        const { data } = await axiosInstance.post("/api/v1/users/forgot",{ email },config)
+        console.log("data for reset email", data.data);
+        return data.data;
+      } catch (error) {
+           if (error.response && error.response.data.message) {
+             return rejectWithValue(error.response.data.message);
+           } else {
+             return rejectWithValue(error.message);
+           }
+      }
+    }
+  )

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../../../features/actions/authAction";
 import { useEffect } from "react";
 import { ClipLoader } from "react-spinners";
@@ -55,6 +55,8 @@ const Login = () => {
                       <span className="mx-2">Sign In</span>
                     )}
                   </button>
+                  <h1 className="text-center mt-1">OR</h1>
+                  <Link to="/forgot-password"><h1 className="text-center m-1"> Forgot Password</h1></Link>
                   <p className="mt-6 text-xs text-gray-600 text-center">
                     I agree to abide by Cartesian Kinetics
                     <a
