@@ -4,7 +4,14 @@ import { getUniversities } from "../../features/actions/universitiesAction";
 import { useDispatch, useSelector } from "react-redux";
 import { getCountries } from "../../features/actions/countriesActions";
 
-import { Star, MapPin, Calendar, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  Star,
+  MapPin,
+  Calendar,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
 const UniversityPage = () => {
   const navigate = useNavigate();
@@ -19,24 +26,23 @@ const UniversityPage = () => {
 
   useEffect(() => {
     dispatch(getCountries());
-    dispatch(getUniversities())
-  }, [])
-
+    dispatch(getUniversities());
+  }, []);
 
   // extracting only the unique countries from the data set
   // const uniqueCountries = [
   //   ...new Set(countryInfo?.map((country) => country.name)),
   // ];
 
-   // filter handle
+  // filter handle
   const filteredUniversities = universities?.filter((university) => {
     // to select by name
     const nameMatch = university?.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     // to select by coountry
-   
-      return nameMatch;
+
+    return nameMatch;
   });
 
   const handleCountryChange = (country) => {
@@ -54,9 +60,13 @@ const UniversityPage = () => {
     const existingCountryIds = searchParams.getAll("country");
 
     // Only update search params if there’s a change in selected countries
-    if (selectedCountries.sort().join(",") !== existingCountryIds.sort().join(",")) {
+    if (
+      selectedCountries.sort().join(",") !== existingCountryIds.sort().join(",")
+    ) {
       searchParams.delete("country");
-      selectedCountries.forEach((countryId) => searchParams.append("country", countryId));
+      selectedCountries.forEach((countryId) =>
+        searchParams.append("country", countryId)
+      );
 
       navigate(
         {
@@ -84,16 +94,12 @@ const UniversityPage = () => {
             <div key={country?._id} className="flex items-center mb-2">
               <input
                 type="checkbox"
-                id={country}  
+                id={country}
                 value={country?._id}
                 onChange={() => handleCountryChange(country)}
                 className="mr-2"
               />
-<<<<<<< HEAD
-              <label htmlFor={country}>{country}</label>
-=======
-              <label htmlFor={country}>{country?.name}</label>  
->>>>>>> 54b714176becf0e39ce52671005da44a57ff3db5
+              <label htmlFor={country}>{country?.name}</label>
             </div>
           ))}
         </div>
@@ -110,16 +116,20 @@ const UniversityPage = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        {isSuccess ? <UniversityGrid universitiesInfo={filteredUniversities} />:<><div className="text-red-600">No University found</div></>}
-         
+        {isSuccess ? (
+          <UniversityGrid universitiesInfo={filteredUniversities} />
+        ) : (
+          <>
+            <div className="text-red-600">No University found</div>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
 export default UniversityPage;
- 
- 
+
 const UniversityGrid = ({ universitiesInfo }) => {
   const [expandedId, setExpandedId] = useState(null);
 
@@ -130,7 +140,7 @@ const UniversityGrid = ({ universitiesInfo }) => {
   // Function to extract src from iframe string
   const extractMapSrc = (iframeString) => {
     const srcMatch = iframeString.match(/src="([^"]+)"/);
-    return srcMatch ? srcMatch[1] : '';
+    return srcMatch ? srcMatch[1] : "";
   };
 
   return (
@@ -167,7 +177,9 @@ const UniversityGrid = ({ universitiesInfo }) => {
               </h2>
               <div className="flex items-center bg-blue-50 px-3 py-1 rounded-full">
                 <Star className="w-4 h-4 text-yellow-500 mr-1" />
-                <span className="text-blue-600 font-semibold">{university?.totalRating}</span>
+                <span className="text-blue-600 font-semibold">
+                  {university?.totalRating}
+                </span>
               </div>
             </div>
 
@@ -175,7 +187,10 @@ const UniversityGrid = ({ universitiesInfo }) => {
             <div className="space-y-2 mb-4">
               <div className="flex items-center text-gray-600">
                 <MapPin className="w-4 h-4 mr-2" />
-                <span>{university?.city}, {university?.state}, {university?.country?.name}</span>
+                <span>
+                  {university?.city}, {university?.state},{" "}
+                  {university?.country?.name}
+                </span>
               </div>
               <div className="flex items-center text-gray-600">
                 <Calendar className="w-4 h-4 mr-2" />
@@ -188,10 +203,16 @@ const UniversityGrid = ({ universitiesInfo }) => {
             </div>
 
             {/* Expandable Content */}
-            <div className={`transition-all duration-300 overflow-hidden ${expandedId === university._id ? 'max-h-[2000px]' : 'max-h-0'}`}>
+            <div
+              className={`transition-all duration-300 overflow-hidden ${
+                expandedId === university._id ? "max-h-[2000px]" : "max-h-0"
+              }`}
+            >
               {/* Overview */}
               <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Overview</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  Overview
+                </h3>
                 <div
                   className="text-gray-600 prose prose-sm"
                   dangerouslySetInnerHTML={{ __html: university?.overview }}
@@ -200,7 +221,9 @@ const UniversityGrid = ({ universitiesInfo }) => {
 
               {/* Highlights */}
               <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Highlights</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  Highlights
+                </h3>
                 <div
                   className="text-gray-600 prose prose-sm"
                   dangerouslySetInnerHTML={{ __html: university?.highlights }}
@@ -209,7 +232,9 @@ const UniversityGrid = ({ universitiesInfo }) => {
 
               {/* Location Map */}
               <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Location</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  Location
+                </h3>
                 <div className="mt-2 rounded-lg overflow-hidden shadow-md">
                   <iframe
                     src={extractMapSrc(university?.location)}
