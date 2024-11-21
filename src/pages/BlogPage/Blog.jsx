@@ -4,6 +4,7 @@ import { getBlogs, getRecentBlogs } from '../../features/actions/blogsAction';
 import { getCategories } from '../../features/actions/categoriesAction';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import parse from 'html-react-parser';
 
 const Blog = () => {
     const dispatch = useDispatch();
@@ -100,7 +101,7 @@ const Blog = () => {
 
                                 {/* Description */}
                                 <p className="text-gray-700 mb-4">
-                                    {blog?.content?.slice(0, 100)}  
+                                    {parse(blog?.content?.slice(0, 100))}  
                                     {blog?.content?.length > 100 && "..."}   
                                     
                                 </p>

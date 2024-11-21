@@ -11,7 +11,7 @@ export const getCategories = createAsyncThunk("blogs/getCategories",
                  };
                  const {
                      data
-                 } = await axiosInstance.get(`/api/v1/blogs/categories`, config);
+                 } = await axiosInstance.get(`/api/v1/blogs/categories?noPagination=true`, config);
 
                  console.log("Categories data", data);
 
