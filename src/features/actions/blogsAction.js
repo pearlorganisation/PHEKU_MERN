@@ -3,21 +3,22 @@ import { axiosInstance } from "../../services/axiosInterceptor";
 
 
 export const getBlogs = createAsyncThunk(
-    "blogs/getBlogs",async(params,{ rejectWithValue })=>{
+    "blogs/getBlogs",async({category, page =1},{ rejectWithValue })=>{
+        console.log("----------blogs params",category)
         try {
             const config = {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                params
+                 
             };
             const {
                 data
-            } = await axiosInstance.get(`/api/v1/blogs`, config);
+            } = await axiosInstance.get(`/api/v1/blogs?page=${page}&category=${category}`, config);
 
             console.log("Blogs Data", data);
 
-            return data.data;
+            return data;
         } catch (error) {
              // return custom error message from backend if present
              if (error.response && error.response.data.message) {

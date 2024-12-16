@@ -3,19 +3,19 @@ import { axiosInstance } from "../../services/axiosInterceptor";
 
 export const getUniversities = createAsyncThunk(
   "universities/getUniversities",
-  async (params, { rejectWithValue }) => {
+  async ({country, page=1}, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
-        params
+        
       };
-      const { data } = await axiosInstance.get(`/api/v1/universities`, config);
+      const { data } = await axiosInstance.get(`/api/v1/universities?page=${page}&country=${country}`, config);
 
       console.log("Universities Data", data);
 
-      return data.data;
+      return data;
     } catch (error) {
       // return custom error message from backend if present
       if (error.response && error.response.data.message) {

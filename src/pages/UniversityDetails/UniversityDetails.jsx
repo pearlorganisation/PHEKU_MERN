@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getUniversityById } from '../../features/actions/universitiesAction';
 import { useParams } from 'react-router-dom';
 

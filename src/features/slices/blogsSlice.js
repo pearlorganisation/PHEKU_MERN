@@ -10,6 +10,7 @@ const initialState = {
     recentBlogs: null,
     singleBlog: null,
     message: null,
+    paginate:{}
 };
 
 const blogsSlice = createSlice({
@@ -32,7 +33,8 @@ const blogsSlice = createSlice({
             state.isSuccess = true;
             state.isLoading = false;
             state.isError = false
-            state.blogs = action.payload;
+            state.blogs = action.payload.data;
+            state.paginate = action.payload.metadata;
         })
         .addCase(getRecentBlogs.pending, (state)=>{
             state.isLoading = true;

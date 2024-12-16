@@ -5,15 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCountries } from "../../features/actions/countriesActions";
 
 import { Star, MapPin, Calendar, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
+import Pagination from "../../components/Pagination/Pagination";
 
 const UniversityPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { universities, isSuccess } = useSelector((state) => state.university);
+  const { universities, isSuccess, paginate } = useSelector((state) => state.university);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [currentPage , setCurrentPage] = useState(1)
   const dispatch = useDispatch();
   
+
 // ----- getting countries  -----/
 const { countryInfo } = useSelector((state)=>state.countries)
 
@@ -21,6 +24,16 @@ const { countryInfo } = useSelector((state)=>state.countries)
     dispatch(getCountries());
     dispatch(getUniversities())
   }, [])
+/**for pagination */
+const totalPages = Math.ceil(paginate?.total / paginate?.limit)
+console.log('------------total pages', totalPages)
+
+const handleChnagePage =(page)=>{
+  if (page > 0 && page <= totalPages) {
+    setCurrentPage(page)
+  }
+}
+
 
 
   // extracting only the unique countries from the data set
@@ -31,9 +44,7 @@ const { countryInfo } = useSelector((state)=>state.countries)
    // filter handle
   const filteredUniversities = universities?.filter((university) => {
     // to select by name
-    const nameMatch = university?.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+    const nameMatch = university?.name?.toLowerCase().includes(searchTerm.toLowerCase());
     // to select by coountry
    
       return nameMatch;
@@ -70,10 +81,11 @@ const { countryInfo } = useSelector((state)=>state.countries)
     // Dispatch action to get universities with selected country IDs
     dispatch(
       getUniversities({
-        country: selectedCountries, // Pass selected country IDs
+        country: selectedCountries, //selected countries id
+        page:currentPage
       })
     );
-  }, [selectedCountries, navigate, location, dispatch]);
+  }, [selectedCountries, navigate, location, dispatch,currentPage]);
 
   return (
     <div className="px-16 py-4 mt-8 flex">
@@ -109,7 +121,7 @@ const { countryInfo } = useSelector((state)=>state.countries)
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {isSuccess ? <UniversityGrid universitiesInfo={filteredUniversities} />:<><div className="text-red-600">No University found</div></>}
-         
+         <Pagination paginate={paginate} currentPage={currentPage} totalPages={totalPages} handlePageClick={handleChnagePage} />
       </div>
     </div>
   );
@@ -117,7 +129,7 @@ const { countryInfo } = useSelector((state)=>state.countries)
 
 export default UniversityPage;
  
- 
+ /**--------------------supporting component-------------------*/
 const UniversityGrid = ({ universitiesInfo }) => {
   const [expandedId, setExpandedId] = useState(null);
 

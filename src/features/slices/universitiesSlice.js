@@ -10,6 +10,7 @@ const initialState = {
   universities: null,
   universityInfo: null,
   message: null,
+  paginate:{}
 };
 
 const universitiesSlice = createSlice({
@@ -26,13 +27,15 @@ const universitiesSlice = createSlice({
         state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
+        state.paginate = {}
         toast.error(action.payload, { position: "top-center" });
       })
       .addCase(getUniversities.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.universities = action.payload;
+        state.universities = action.payload.data;
+        state.paginate = action.payload.metadata;
       })
       .addCase(getUniversityById.pending,(state)=>{
         state.isLoading = true;

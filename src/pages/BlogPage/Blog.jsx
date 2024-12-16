@@ -5,15 +5,28 @@ import { getCategories } from '../../features/actions/categoriesAction';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import parse from 'html-react-parser';
+import Pagination from '../../components/Pagination/Pagination';
 
 const Blog = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { blogs } = useSelector((state)=>state.blog)
+    const { blogs, paginate, recentBlogs } = useSelector((state)=>state.blog)
     const { categories } = useSelector((state)=>state.categories)
-    const { recentBlogs } = useSelector((state)=>state.blog)
+    /**------------------for pagination logic-------------------*/
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(
+        paginate?.total / paginate?.limit
+    )
+
+    // handle for changin the current page
+    const handleChangePage = (page)=>{
+        if(page > 0 && page <= totalPages ){
+            setCurrentPage(page)
+        }
+    }
 
     /*--------------------------------Storing Category filter-------------- */
     const [selectedCategory, setSelectedCategory] = useState([]);
@@ -47,9 +60,10 @@ const Blog = () => {
     }
     // dispatching blogs with params //
     dispatch(getBlogs({
-        category: selectedCategory
+        category: selectedCategory,
+        page: currentPage
     }));
-   },[selectedCategory,navigate, location, dispatch]);
+   },[selectedCategory,navigate, location, dispatch, currentPage]);
 
 
 
@@ -80,7 +94,7 @@ const Blog = () => {
         <div className="p-20 grid grid-cols-1 md:grid-cols-3 gap-4"> 
             <div className="md:col-span-2">  
                 <div className="grid grid-cols-1 gap-4">
-                    {blogs?.map((blog) => (
+                    {Array.isArray(blogs) && blogs?.map((blog) => (
                         <div key={blog?._id} className="border rounded-lg shadow-md overflow-hidden flex items-center p-4">
                             {/* Image section */}
                             <img
@@ -136,6 +150,7 @@ const Blog = () => {
                         </div>
                     ))}
                 </div>
+                <Pagination paginate={paginate} currentPage={currentPage} totalPages={totalPages} handlePageClick={handleChangePage} />
             </div>
             <div> 
                 <div className="border rounded-lg p-4 mb-4">
