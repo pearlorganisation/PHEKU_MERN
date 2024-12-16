@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom';
 import { getSingleBlog } from "../../features/actions/blogsAction"
+import parse from 'html-react-parser';
+
 const BlogDetails = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -33,7 +35,7 @@ const BlogDetails = () => {
             </div>
 
             <div className="prose prose-lg max-w-full mb-6 text-gray-700">
-                <p>{singleBlog?.content}</p>
+                <p>{parse(singleBlog?.content)}</p>
             </div>
 
             <div className="text-right text-sm text-gray-500">
