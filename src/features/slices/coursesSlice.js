@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { toast } from "sonner";
-import { getCourses } from "../actions/coursesAction";
+import { getCourseById, getCourses } from "../actions/coursesAction";
 
 const initialState = {
   isLoading: false,
@@ -9,6 +9,8 @@ const initialState = {
   isSuccess: false,
   courses: null,
   message: null,
+  singleCourse:{},
+  paginate:{}
 };
 
 const coursesSlice = createSlice({
@@ -31,8 +33,28 @@ const coursesSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.courses = action.payload;
-      });
+        state.courses = action.payload.data;
+        state.paginate = action.payload.metadata
+
+      })
+      .addCase(getCourseById.pending,(state)=>{
+        state.isLoading = true
+        state.isSuccess = false
+        state.isError = false
+      })
+      .addCase(getCourseById.rejected,(state,action)=>{
+        state.isLoading = false
+        state.isSuccess = false
+        state.isError = true
+        toast.error(action.payload,{position:"top-right"})
+      })
+      .addCase(getCourseById.fulfilled,(state,action)=>{
+        state.isLoading = false
+        state.isSuccess = true
+        state.isError=false
+        state.singleCourse = action.payload
+        toast.success("Course retrived successfully",{position:"top-right"})
+      })
   },
 });
 

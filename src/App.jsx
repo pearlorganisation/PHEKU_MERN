@@ -22,6 +22,7 @@ import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ForgotPassword/ResetPassword";
 import UniversityDetails from "./pages/UniversityDetails/UniversityDetails";
+import CourseDetails from "./pages/CourseDetails/CourseDetails";
 
  
 const router = createBrowserRouter([
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: "/courses",
         element: <Courses />
+      },
+      {
+        path:"/course/:id",
+        element:<CourseDetails />
       },
       {
         path: "/profile",

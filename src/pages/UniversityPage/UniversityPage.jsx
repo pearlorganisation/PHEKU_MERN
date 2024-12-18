@@ -133,10 +133,6 @@ export default UniversityPage;
 const UniversityGrid = ({ universitiesInfo }) => {
   const [expandedId, setExpandedId] = useState(null);
 
-  const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   // Function to extract src from iframe string
   const extractMapSrc = (iframeString) => {
     const srcMatch = iframeString.match(/src="([^"]+)"/);
@@ -240,22 +236,7 @@ const UniversityGrid = ({ universitiesInfo }) => {
 
             {/* Action Buttons */}
             <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-              <button
-                onClick={() => toggleExpand(university._id)}
-                className="flex items-center text-blue-600 hover:text-blue-700 transition-colors"
-              >
-                {expandedId === university._id ? (
-                  <>
-                    <ChevronUp className="w-4 h-4 mr-1" />
-                    Show Less
-                  </>
-                ) : (
-                  <>
-                    <ChevronDown className="w-4 h-4 mr-1" />
-                    Show More
-                  </>
-                )}
-              </button>
+            
 
               <Link
                 to={`/university/${university?._id}`}
