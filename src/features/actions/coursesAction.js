@@ -3,14 +3,14 @@ import { axiosInstance } from "../../services/axiosInterceptor";
 
 export const getCourses = createAsyncThunk(
   "courses/getCourses",
-  async ({page=1}, { rejectWithValue }) => {
+  async ({country,page=1}, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axiosInstance.get(`/api/v1/courses?page=${page}`, config);
+      const { data } = await axiosInstance.get(`/api/v1/courses?page=${page}&countryId=${country}`, config);
 
       console.log("Courses Data", data);
 

@@ -3,28 +3,71 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCourses } from "../../features/actions/coursesAction";
 import CurrencyDisplay from "../../components/Currency/CurrencyCode";
 import getSymbolFromCurrency from 'currency-symbol-map'
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination/Pagination";
+import { getCountries } from "../../features/actions/countriesActions";
 
 const coursesData = [];
 
 const Courses = () => {
-  const { courses ,paginate} = useSelector((state) => state.course);
+
   const dispatch = useDispatch();
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const { courses ,paginate} = useSelector((state) => state.course);
+  const { countryInfo } = useSelector((state) => state.countries)
+ 
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedCountries, setSelectedCountries] = useState([]);
+ 
   const total_pages = Math.ceil(paginate?.total/ paginate?.limit)
   console.log('------total pages', total_pages)
+  
   const handlePage =(page)=>{
     if(page>0 && page<total_pages){
       setCurrentPage(page)
     }
   }
+ 
+/** handle for selecting the country */
+  const handleCountryChange = (country) => {
+    let updatedCountries = [...selectedCountries];
+    if (updatedCountries.includes(country._id)) {
+      updatedCountries = updatedCountries.filter((ct) => ct !== country._id);
+    } else {
+      updatedCountries.push(country._id);
+    }
+    setSelectedCountries(updatedCountries);
+  };
+
+
+
 
   useEffect(() => {
+    dispatch(getCountries());
+  }, [])
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const existingCountryId = searchParams.getAll("country")
+
+    if(selectedCountries.sort().join(",")!== existingCountryId.sort().join(",")){
+      /** if the selectedids and existingid are not equal then delete all the parameters */
+      searchParams.delete("country")
+      selectedCountries.forEach((countryId)=>searchParams.append("country",countryId));
+
+      navigate({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      },
+        { replace: true })
+    }
     dispatch(getCourses({
+      country:selectedCountries,
       page:currentPage
     }));
-  }, [dispatch, currentPage]);
+  }, [dispatch, currentPage,selectedCountries]);
   /** for extracting the map */
   const extractMapSrc = (iframeString) => {
     const srcMatch = iframeString.match(/src="([^"]+)"/);
@@ -32,6 +75,26 @@ const Courses = () => {
   };
   console.log(courses, "all courses ");
   return (
+    <div className="px-16 py-4 mt-8 flex"> 
+    {/**----------filters section */}
+
+      <div className="w-1/6 mr-4 mt-10">
+        <h2 className="text-xl font-semibold mb-2">Filter by Country</h2>
+        <div>
+          {countryInfo?.map((country) => (
+            <div key={country?._id} className="flex items-center mb-2">
+              <input
+                type="checkbox"
+                id={country}
+                value={country?._id}
+                onChange={() => handleCountryChange(country)}
+                className="mr-2"
+              />
+              <label htmlFor={country}>{country?.name}</label>
+            </div>
+          ))}
+        </div>
+      </div>
     <div className="px-4 py-8 mt-8">  
       <h1 className="text-4xl font-bold text-red-400 text-center mb-8">
         Courses Offered by Universities
@@ -70,6 +133,7 @@ const Courses = () => {
         ))}
       </div>
       <Pagination paginate={paginate} currentPage={currentPage} totalPages={total_pages} handlePageClick={handlePage} />
+    </div>
     </div>
   );
 };
